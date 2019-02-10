@@ -2,7 +2,8 @@
 const Hapi = require('hapi');
 
 const server = Hapi.server({
-    host: process.env.HOST || '0.0.0.0',
+    // host: process.env.HOST || '0.0.0.0',
+    host: '0.0.0.0',
     port: process.env.PORT || 80
 });
 
