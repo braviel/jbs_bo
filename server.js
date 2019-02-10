@@ -10,7 +10,8 @@ server.route({
     method: 'GET',
     path: '/',
     handler: (request, h) => {
-        return `Ping!`;
+        console.log('resp');
+        return `Pong!`;
     }
 })
 
