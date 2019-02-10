@@ -7,24 +7,24 @@ const server = Hapi.server({
     port: process.env.PORT || 80
 });
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: (request, h) => {
-        console.log('resp');
-        return `Pong!`;
-    }
-})
 
 const init = async () => {
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
 
+    server.route({
+        method: 'GET',
+        path: '/',
+        handler: (request, h) => {
+            console.log('resp');
+            return `Pong!`;
+        }
+    });
 }
 
 process.on('unhandledRejection', (err) => {
-    console.log(err);
+    console.log('DEVLOG: ' + err);
     process.exit(1);
 })
 
