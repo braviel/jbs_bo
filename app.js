@@ -1,10 +1,14 @@
+'use strict';
 const server = require('./server');
 const JWT = require('jsonwebtoken');
+const glob = require('glob');
 const db = require('./db/db');
-
-const jwt = JWT.sign({id:1}, 'apisecret');
-console.log(`Token: ${jwt}`);
-const init = async () => {    
+const path = require('path');
+const JwtValidator = require('./app/validator/jwtvalidator')
+// const jwt = JWT.sign({id:1}, 'apisecret');
+// console.log(`Token: ${jwt}`);
+const init = async () => {
+    
     await server.register({
         plugin: require('hapi-pino'),
         options: {
@@ -12,26 +16,24 @@ const init = async () => {
             logEvents: ['response', 'onPostStart']
         }
     });
+    // 
     //
-    const validate = function(decoded, request, h) {
-        console.log(" - - - - - - - decoded token:");
-        console.log(decoded);
-        console.log(" - - - - - - - request info:");
-        console.log(request.info);
-        console.log(" - - - - - - - user agent:");
-        console.log(request.headers['user-agent']);
-        console.log(" - - - - - - - Authorization:");
-        console.log(request.headers['Authorization']);
-        return { isValid: true };
-    };
     await server.register( require('hapi-auth-jwt2') );
     server.auth.strategy('token', 'jwt', {
         key: 'apisecret',
-        validate: validate,
+        validate: JwtValidator,
         verifyOptions: {
             algorithm: 'HS256'
         }
     });    
+
+    glob.sync('app/api/**/routes/*.js', {
+        root: __dirname
+    }).forEach(file => {
+        const route = require(path.join(__dirname, file));
+        server.route(route);
+        console.log(`@@@ Route: ${path.join(__dirname, file)}.`);
+    });
 
     server.route({
         method: 'GET',
