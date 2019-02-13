@@ -1,9 +1,9 @@
 'use strict';
-const Hapi = require('hapi');
+// const Hapi = require('hapi');
 
-const server = Hapi.server({
-    host: process.env.HOST || '0.0.0.0',    
-    port: process.env.PORT || 8000
-});
+// const server = Hapi.server({
+//     host: process.env.HOST || '0.0.0.0',    
+//     port: process.env.PORT || 8000
+// });
 
-module.exports = server;
+// module.exports = server;
