@@ -1,12 +1,14 @@
 "use strict";
 const config = require('./config');
 const Sequelize = require('sequelize');
+
 //database wide options
 const opts = {
     define: {
         //prevent sequelize from pluralizing table names
-        freezeTableName: true
-    }
+        freezeTableName: true                
+    },
+    operatorsAliases: false
 }
 module.exports = {
     server: {

@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {   
-    dbConnectionStr: 'mysql://root:sasa@localhost/jbs?reconnect=true',
+    dbConnectionStr: process.env.CLEARDB_DATABASE_URL || 'mysql://root:sasa@localhost/jbs?reconnect=true',
     sequelize: {        
         database: 'jbs',
         username: 'root',

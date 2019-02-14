@@ -12,7 +12,7 @@ module.exports = {
             key: 'apisecret',
             validate: JwtValidator,
             verifyOptions: {
-                algorithm: 'HS256'
+                algorithms: ['HS256']
             }
         });        
     }

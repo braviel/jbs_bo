@@ -1,5 +1,5 @@
 'use strict';
-const Country = require('./country')
+const Country = require('./Country');
 
 module.exports = function(sequelize, DataTypes) {
     const City = sequelize.define('City', {
@@ -17,7 +17,6 @@ module.exports = function(sequelize, DataTypes) {
         }
     }, {
         timestamps: false
-    });
-    // Country.sync();
+    });    
     return City;
 }
