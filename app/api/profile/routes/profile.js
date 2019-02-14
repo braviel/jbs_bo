@@ -1,7 +1,9 @@
 'use strict';
-const register = function(server, serverOptions)
-{
-    server.route({
+// const register = function(server, serverOptions)
+// {
+//     server.route(
+module.exports = [
+    {
         method: 'GET',
         path: '/api/profiles',
         config: {
@@ -18,11 +20,13 @@ const register = function(server, serverOptions)
                 return 'Profiles';
             }
         }
-    });
-}
+    }
+]
+//     );
+// }
 
-module.exports = {
-    name: 'api-profile',
-    version: '0.0.1',
-    register
-}
+// module.exports = {
+//     name: 'api-profile',
+//     version: '0.0.1',
+//     register
+// }

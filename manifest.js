@@ -3,12 +3,6 @@ module.exports = {
     server: {
         port: process.env.PORT || 5000
     },
-    // connections: [
-    //     {
-    //         port: 8000,
-    //         label: "api"
-    //     }
-    // ],
     register: {
         plugins: [
             {
@@ -22,11 +16,14 @@ module.exports = {
                 plugin: './plugins/jwt-wrapper'
             },
             {
-                plugin: './app/api/profile/routes/profile'
-            },
-            {
-                plugin: './app/api/main'
+                plugin: './app/router'
             }
+            // {
+            //     plugin: './app/api/profile/routes/profile'
+            // },
+            // {
+            //     plugin: './app/api/main'
+            // }
         ]
     }
 };

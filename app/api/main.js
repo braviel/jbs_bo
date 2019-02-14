@@ -1,9 +1,8 @@
 'use strict';
-
-
-const register = function (server, serverOptions) {
-
-    server.route({
+// const register = function (server, serverOptions) {
+//     server.route(
+module.exports = [
+    {
         method: 'GET',
         path: '/api',
         options: {
@@ -18,12 +17,12 @@ const register = function (server, serverOptions) {
                 message: 'Welcome to the API.'
             };
         }
-    });
-};
-
-
-module.exports = {
-    name: 'api-main',
-    dependencies: [],
-    register
-};
+    }
+]
+//     );
+// };
+// module.exports = {
+//     name: 'api-main',
+//     dependencies: [],
+//     register
+// };
