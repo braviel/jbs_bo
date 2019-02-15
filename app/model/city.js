@@ -12,8 +12,9 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: false
     });
-    
+
     City.associate = function(models) {
+        console.log(`Associate ${__filename}`);
         models.Country.hasMany(models.City, {foreignKey: 'CountryCode'});
         models.City.belongsTo(models.Country, {foreignKey: 'CountryCode'});
     };

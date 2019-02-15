@@ -21,9 +21,10 @@ module.exports = function(sequelize, DataTypes) {
         timestamps: true
     });
     Group.associate = (models) => {
+        console.log(`Associate ${__filename}`);
         models.Group.belongsTo(models.City, {foreignKey: 'CityCode'});
         models.Group.belongsTo(models.Country, {foreignKey: 'CountryCode'});
         models.Group.belongsTo(models.Company, {foreignKey: 'CompanyUID'});
-    }
+    };
     return Group;
 }

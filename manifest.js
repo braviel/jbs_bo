@@ -10,6 +10,12 @@ const opts = {
     },
     operatorsAliases: false
 }
+const swaggerOptions = {
+    info: {
+            title: 'JBS API Documentation',
+            version: '0.0.1',
+        },
+};
 module.exports = {
     server: {
         port: process.env.PORT || 5000
@@ -35,7 +41,17 @@ module.exports = {
                 }
             },
             {
-                plugin: './plugins/jwt-wrapper'
+                plugin: 'inert'
+            },
+            {
+                plugin: 'vision'
+            },
+            {
+                plugin: 'hapi-swagger'
+            },
+            {
+                plugin: './plugins/jwt-wrapper',
+                options: swaggerOptions
             },    
             {
                 plugin: './app/router'

@@ -15,7 +15,7 @@ module.exports = [
         },
         handler: function (request, h) {
             return {
-                message: 'Welcome to the API.'
+                message: 'Welcome to the JBS API.'
             };
         }
     },
@@ -37,7 +37,7 @@ module.exports = [
                 CallingCode: '+84'
                 });
             });
-            return 'asd';
+            return 'tested';
         }
     }
 ]
