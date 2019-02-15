@@ -1,5 +1,4 @@
 'use strict';
-const Profile = require('./Profile');
 
 module.exports = function(sequelize, DataTypes) {
     console.log(`Define ${__filename}`);

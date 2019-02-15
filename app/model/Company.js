@@ -1,6 +1,4 @@
 'use strict';
-// const Country = require('./country');
-// const City = require('./City');
 
 module.exports = function(sequelize, DataTypes) {
     console.log(`Define ${__filename}`);

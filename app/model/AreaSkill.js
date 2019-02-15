@@ -1,5 +1,4 @@
 'use strict';
-const AreaInterest = require('./AreaInterest');
 
 module.exports = function(sequelize, DataTypes) {
     console.log(`Define ${__filename}`);
