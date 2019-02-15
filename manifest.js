@@ -32,7 +32,7 @@ module.exports = {
             {
                 plugin: 'hapi-sequelizejs',
                 options: {
-                    name: 'jbs',
+                    name: process.env.DBName || 'jbs',
                     models: [__dirname + '/app/model/**/*.js'],
                     ignoredModels: [],
                     sequelize: new Sequelize(config.dbConnectionStr,opts),
