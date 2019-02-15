@@ -1,7 +1,7 @@
 'use strict';
-const Country = require('./country');
-const City = require('./city');
-const Company = require('./company');
+const Country = require('./Country');
+const City = require('./City');
+const Company = require('./Company');
 
 module.exports = function(sequelize, DataTypes) {
     const Group = sequelize.define('Group', {
@@ -42,7 +42,6 @@ module.exports = function(sequelize, DataTypes) {
         Location2: DataTypes.STRING
     }, {
         timestamps: true
-    });
-    // Country.sync();
+    });    
     return Group;
 }

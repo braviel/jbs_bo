@@ -1,6 +1,6 @@
 'use strict';
-const Country = require('./country');
-const City = require('./city');
+const Country = require('./Country');
+const City = require('./City');
 
 module.exports = function(sequelize, DataTypes) {
     const Profile = sequelize.define('Profile', {

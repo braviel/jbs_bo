@@ -25,5 +25,15 @@ module.exports = [
         config: {
             auth: false, //'token',
         }
+    },
+    {
+        method: 'POST',
+        path: 'api/country',
+        handler: async (req, res) => {
+            return '__';
+        },
+        config: {
+            auth: false //'token'
+        }
     }
 ]

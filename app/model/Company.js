@@ -1,6 +1,6 @@
 'use strict';
 const Country = require('./country');
-const City = require('./city');
+const City = require('./City');
 
 module.exports = function(sequelize, DataTypes) {
     const Company = sequelize.define('Company', {
@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         CompanyPhone: DataTypes.STRING(50),
         CompanyEmail: DataTypes.STRING(255),
-        CompanyUEN: DataTypes.STRING(45),
+        CompanyUEN: DataTypes.STRING(50),
         CompanyLogo: DataTypes.BLOB('long'),
         CompanyName: DataTypes.STRING(255),
         DepartmentUID: DataTypes.STRING(50),
@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
         BuildingName: DataTypes.TEXT('tiny'),
         Address1: DataTypes.STRING,
         Address2: DataTypes.STRING,
-        PostalCode: DataTypes.STRING(45),
+        PostalCode: DataTypes.STRING(50),
         City: {
             type: DataTypes.INTEGER,
             references: {
@@ -36,6 +36,6 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: true
     });
-    // Country.sync();
+    
     return Company;
 }

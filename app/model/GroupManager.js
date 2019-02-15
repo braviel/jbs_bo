@@ -2,7 +2,7 @@
 const Country = require('./Country');
 const Group = require('./Group');
 const Profile = require('./Profile');
-const Company = require('./company');
+const Company = require('./Company');
 
 module.exports = function(sequelize, DataTypes) {
     const GroupManager = sequelize.define('GroupManager', {        

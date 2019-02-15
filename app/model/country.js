@@ -9,7 +9,6 @@ module.exports = function(sequelize, DataTypes) {
         CallingCode: DataTypes.STRING
     }, {
         timestamps: false
-    });
-    // Country.sync();
+    });    
     return Country;
 }
