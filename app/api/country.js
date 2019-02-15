@@ -6,9 +6,10 @@ module.exports = [
     {
         method: 'GET',
         path: '/api/country',
-        handler: async (req, res) => {
-            const Country = req.getModel('jbs','Country');
-            return Country.findAll();
+        handler:  (req, res) => {
+            const Country = req.getModel('Country');
+            const countries =  Country.findAll();
+            return countries;
         },
         config: {
             auth: false, //'token',
