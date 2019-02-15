@@ -17,7 +17,7 @@ module.exports = [
         method: 'GET',
         path: '/api/country/{id}',
         handler: async (req, res) => {
-            const Country = req.getModel('jbs','Country');
+            const Country = req.getModel('Country');
             const country = await Country.findById(req.params.id);
             if (country === null) throw Boom.notFound();
             return country.get();
@@ -26,14 +26,16 @@ module.exports = [
             auth: false, //'token',
         }
     },
-    {
-        method: 'POST',
-        path: 'api/country',
-        handler: async (req, res) => {
-            return '__';
-        },
-        config: {
-            auth: false //'token'
-        }
-    }
+    // {
+    //     method: 'POST',
+    //     path: 'api/country',
+    //     handler: async (req, res) => {
+    //         const Country = req.getModel('Country');
+    //         const country = Country.build(req.payload.country);
+    //         return country.save();
+    //     },
+    //     config: {
+    //         auth: false //'token'
+    //     }
+    // }
 ]

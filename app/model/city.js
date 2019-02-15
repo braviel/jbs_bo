@@ -2,21 +2,21 @@
 const Country = require('./Country');
 
 module.exports = function(sequelize, DataTypes) {
+    console.log(`Define ${__filename}`);
     const City = sequelize.define('City', {
         CityCode: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        CityName: DataTypes.STRING,
-        CountryCode: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Country,
-                key: 'CountryCode'
-            }
-        }
+        CityName: DataTypes.STRING
     }, {
         timestamps: false
-    });    
+    });
+    
+    City.associate = function(models) {
+        models.Country.hasMany(models.City, {foreignKey: 'CountryCode'});
+        models.City.belongsTo(models.Country, {foreignKey: 'CountryCode'});
+    };
+    
     return City;
 }

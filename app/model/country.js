@@ -1,5 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
+    console.log(`Define ${__filename}`);
     const Country = sequelize.define('Country', {
         CountryCode: {
             type: DataTypes.INTEGER,

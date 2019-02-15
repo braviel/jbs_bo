@@ -3,6 +3,7 @@ const Country = require('./Country');
 const City = require('./City');
 
 module.exports = function(sequelize, DataTypes) {
+    console.log(`Define ${__filename}`);
     const Profile = sequelize.define('Profile', {
         ProfileUID: {
             type: DataTypes.STRING(50),
@@ -21,26 +22,29 @@ module.exports = function(sequelize, DataTypes) {
         Address1: DataTypes.STRING,
         Address2: DataTypes.STRING,
         PostalCode: DataTypes.STRING(45),
-        City: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: City,
-                key: 'CityCode'
-            }
-        },
-        Country:{
-            type: DataTypes.INTEGER,
-            references: {
-                model: Country,
-                key: 'CountryCode'
-            }
-        },
+        // City: {
+        //     type: DataTypes.INTEGER,
+        //     references: {
+        //         model: City,
+        //         key: 'CityCode'
+        //     }
+        // },
+        // Country:{
+        //     type: DataTypes.INTEGER,
+        //     references: {
+        //         model: Country,
+        //         key: 'CountryCode'
+        //     }
+        // },
         DrivingLicenseClass: DataTypes.STRING,
         DrivingLicenseDate: DataTypes.DATEONLY,
-        Religion: DataTypes.STRING        
+        Religion: DataTypes.STRING
     }, {
         timestamps: true
     });
-    // Country.sync();
+    Profile.associate = (models) => {
+        models.Profile.belongsTo(models.City, {foreignKey: 'CityCode'});
+        models.Profile.belongsTo(models.Country, {foreignKey: 'CountryCode'});
+    };
     return Profile;
 }

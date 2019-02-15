@@ -1,8 +1,9 @@
 'use strict';
-const Country = require('./country');
-const City = require('./City');
+// const Country = require('./country');
+// const City = require('./City');
 
 module.exports = function(sequelize, DataTypes) {
+    console.log(`Define ${__filename}`);
     const Company = sequelize.define('Company', {
         CompanyUID: {
             type: DataTypes.STRING(50),
@@ -19,23 +20,14 @@ module.exports = function(sequelize, DataTypes) {
         Address1: DataTypes.STRING,
         Address2: DataTypes.STRING,
         PostalCode: DataTypes.STRING(50),
-        City: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: City,
-                key: 'CityCode'
-            }
-        },
-        Country:{
-            type: DataTypes.INTEGER,
-            references: {
-                model: Country,
-                key: 'CountryCode'
-            }
-        },        
     }, {
         timestamps: true
     });
-    
+
+    Company.associate = function(models) {
+        models.Company.belongsTo(models.City, {foreignKey:'CityCode'});
+        models.Company.belongsTo(models.Country, {foreignKey:'CountryCode'});
+    }
+
     return Company;
 }
