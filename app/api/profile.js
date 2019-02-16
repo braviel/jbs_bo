@@ -34,7 +34,7 @@ module.exports = [
         }
     },// LIST
     {
-        method: 'GET',
+        method: 'POST',
         path: '/profile',
         handler:  (req, res) => {
             const Profile = req.getModel('Profile');
