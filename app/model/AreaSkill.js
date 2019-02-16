@@ -16,8 +16,8 @@ module.exports = function(sequelize, DataTypes) {
         console.log(`@@@ Associate ${__filename}`);
         models.AreaSkill.belongsTo(models.AreaInterest, {foreignKey: 'AreaInterestCode'});
         models.AreaInterest.hasMany(models.AreaSkill, {foreignKey: 'AreaInterestCode'});
-        AreaInterest.sync({force: true});
-        AreaSkill.sync({force: true});
+        models.AreaInterest.sync({force: true});
+        models.AreaSkill.sync({force: true});
     }
     return AreaSkill;
 }
