@@ -21,7 +21,7 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/testdb',
+        path: '/api/testdb',
         options: {
             tags: ['api','db'],
             description: 'Test if DB connection is accessible. [No Scope]',
@@ -29,7 +29,7 @@ module.exports = [
             auth: false
         },
         handler: function (request, h) {
-            const Country = request.getModel('jbs', 'Country');
+            const Country = request.getModel('Country');
             Country.sync({force: false}).then(() => {
                 return Country.create({
                 CountryCode: 84,

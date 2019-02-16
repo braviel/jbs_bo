@@ -5,32 +5,32 @@ const Joi = require('joi');
 module.exports = [
     {
         method: 'GET',
-        path: '/country',
+        path: '/interest',
         handler:  (req, res) => {
-            const Country = req.getModel('Country');
-            const countries =  Country.findAll();
-            return countries;
+            const AreaInterest = req.getModel('AreaInterest');
+            const interests =  AreaInterest.findAll();
+            return interests;
         },
         config: {
             auth: false, //'token',
-            tags: ['api','country'],
-            description: 'List All Country',
+            tags: ['api','AreaInterest'],
+            description: 'List All Interest',
             notes: 'More implemetation note come here',
         }
     },// LIST
-    {
+    {//GET
         method: 'GET',
-        path: '/country/{id}',
+        path: '/interest/{id}',
         handler: async (req, res) => {
-            const Country = req.getModel('Country');
-            const country = await Country.findById(req.params.id);
-            if (country === null) throw Boom.notFound();
-            return country.get();
+            const AreaInterest = req.getModel('AreaInterest');
+            const areaInterest = await AreaInterest.findByPk(req.params.id);
+            if (areaInterest === null) throw Boom.notFound(`Can not find Interest with id ${req.params.id}`);
+            return areaInterest.get();
         },
         config: {
             auth: false, //'token',
-            tags: ['api','country'],
-            description: 'Get Country by Id',
+            tags: ['api','AreaInterest'],
+            description: 'Get AreaInterest by Id',
             notes: 'More implemetation note come here',
             validate: {
                 params: {
@@ -42,18 +42,19 @@ module.exports = [
             }
         }
     },//GET
-    {
+    {//CREATE
         method: 'POST',
-        path: '/country',
+        path: '/interest',
         handler: async (req, res) => {
-            const Country = req.getModel('Country');            
-            const country = await Country.create(req.payload);                
-            return country;                            
+            const AreaInterest = req.getModel('AreaInterest');
+            req.payload.InterestCode = null;
+            const areaInterest = await AreaInterest.create(req.payload);
+            return areaInterest;
         },
         config: {
             auth: false, //'token'
-            tags: ['api','country'],
-            description: 'Create new Country',
+            tags: ['api','AreaInterest'], 
+            description: 'Create new area Interest',
             notes: 'More implemetation note come here',
             plugins: {
                 'hapi-swagger': {
@@ -61,10 +62,8 @@ module.exports = [
                 }
             },
             validate: {
-                payload: Joi.object({
-                    CountryCode: Joi.number(),
-                    CountryName: Joi.string(),
-                    CallingCode: Joi.string()
+                payload: Joi.object({                    
+                    AreaInterestName: Joi.string()
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
@@ -72,22 +71,22 @@ module.exports = [
             }
         }
     },// CREATE
-    {
+    {//DELETE
         method: 'DELETE',
-        path: '/country/{id}',
+        path: '/interest/{id}',
         handler: async (req, res) => {
-            const Country = req.getModel('Country');
-            const country = await Country.findByPk(req.params.id);
-            if (country === null) throw Boom.notFound();
-            const deleted = await Country.destroy({
-                where: {CountryCode: req.params.id}
+            const AreaInterest = req.getModel('AreaInterest');
+            const areaInterest = await AreaInterest.findById(req.params.id);
+            if (areaInterest === null) throw Boom.notFound();
+            const deleted = await AreaInterest.destroy({
+                where: {AreaInterestCode: req.params.id}
             });
             return deleted;
         },
         config: {
             auth: false, //'token',
-            tags: ['api','country'],
-            description: 'Delete Country by Id',
+            tags: ['api','AreaInterest'],
+            description: 'Delete city by Id',
             notes: 'More implemetation note come here',
             validate: {
                 params: {
@@ -99,23 +98,21 @@ module.exports = [
             }
         }
     },//DELETE
-    {
+    {//UPDATE
         method: ['PUT', 'PATCH'],
-        path: '/country/{id}',
+        path: '/interest/{id}',
         handler: async (req, res) => {
-            const Country = req.getModel('Country');
-            const country = await Country.findById(req.params.id);
-            if (country === null) throw Boom.notFound(`Can not find Country with id "${req.params.id}"`);
-            req.payload.CountryCode = req.params.id;
-            await country.update(req.payload);
-            return country.save();
-                
-            // return req.payload;
+            const AreaInterest = req.getModel('AreaInterest');
+            const areaInterest = await AreaInterest.findById(req.params.id);
+            if (areaInterest === null) throw Boom.notFound(`Can not find City with id "${req.params.id}"`);
+            req.payload.AreaInterestCode = req.params.id;
+            await areaInterest.update(req.payload);
+            return areaInterest.save();
         },
         config: {
             auth: false, //'token'
-            tags: ['api','country'],
-            description: 'Update Country',
+            tags: ['api','AreaInterest'],
+            description: 'Update Interest',
             notes: 'More implemetation note come here',
             plugins: {
                 'hapi-swagger': {
@@ -126,9 +123,8 @@ module.exports = [
                 params: {
                     id: Joi.number()
                 },
-                payload: Joi.object({                    
-                    CountryName: Joi.string(),
-                    CallingCode: Joi.string()
+                payload: Joi.object({
+                    AreaInterestName: Joi.string()
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);

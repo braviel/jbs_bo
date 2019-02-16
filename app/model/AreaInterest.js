@@ -4,8 +4,9 @@ module.exports = function(sequelize, DataTypes) {
     console.log(`Define ${__filename}`);
     const AreaInterest = sequelize.define('AreaInterest', {
         AreaInterestCode: {
-            type: DataTypes.INTEGER(11),
-            primaryKey: true
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
         },
         AreaInterestName: DataTypes.STRING,
     }, {
