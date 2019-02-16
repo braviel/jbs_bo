@@ -5,22 +5,49 @@
 module.exports = [
     {
         method: 'GET',
-        path: '/api/profiles',
+        path: '/profile',
+        handler:  (req, res) => {
+            const Profile = req.getModel('Profile');
+            const profile =  Profile.findAll();
+            return profile;
+        },
         config: {
-            auth: 'token',
-            pre: [
-                { method: (req, res) => {
-                    console.log('Pre handler');
-                    return req;
-                    } 
-                }            
-            ],
-            handler: (req, res) => {
-                console.log('resp profile ');
-                return 'Profiles';
-            }
+            auth: false, //'token',
+            tags: ['api','profile'],
+            description: 'List all Profile',
+            notes: 'More implemetation note come here',
         }
-    }
+    },// LIST
+    {
+        method: 'GET',
+        path: '/profile/{id}',
+        handler:  (req, res) => {
+            const Profile = req.getModel('Profile');
+            const profile =  Profile.findByPk(req.params.id);
+            return profile;
+        },
+        config: {
+            auth: false, //'token',
+            tags: ['api','profile'],
+            description: 'Get Profile by id',
+            notes: 'More implemetation note come here',
+        }
+    },// LIST
+    {
+        method: 'GET',
+        path: '/profile',
+        handler:  (req, res) => {
+            const Profile = req.getModel('Profile');
+            const profile =  Profile.findAll();
+            return profile;
+        },
+        config: {
+            auth: false, //'token',
+            tags: ['api','profile'],
+            description: 'List all Profile',
+            notes: 'More implemetation note come here',
+        }
+    },// LIST
 ]
 //     );
 // }
