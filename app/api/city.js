@@ -8,8 +8,8 @@ module.exports = [
         path: '/city',
         handler:  (req, res) => {
             const City = req.getModel('City');
-            const countries =  City.findAll();
-            return countries;
+            const city =  City.findAll();
+            return city;
         },
         config: {
             auth: false, //'token',
@@ -42,7 +42,7 @@ module.exports = [
             }
         }
     },//GET
-    {
+    {//CREATE
         method: 'POST',
         path: '/city',
         handler: async (req, res) => {

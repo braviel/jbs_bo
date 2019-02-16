@@ -86,7 +86,7 @@ module.exports = [
         config: {
             auth: false, //'token',
             tags: ['api','AreaInterest'],
-            description: 'Delete city by Id',
+            description: 'Delete interest by Id',
             notes: 'More implemetation note come here',
             validate: {
                 params: {
@@ -104,7 +104,7 @@ module.exports = [
         handler: async (req, res) => {
             const AreaInterest = req.getModel('AreaInterest');
             const areaInterest = await AreaInterest.findById(req.params.id);
-            if (areaInterest === null) throw Boom.notFound(`Can not find City with id "${req.params.id}"`);
+            if (areaInterest === null) throw Boom.notFound(`Can not find interest with id "${req.params.id}"`);
             req.payload.AreaInterestCode = req.params.id;
             await areaInterest.update(req.payload);
             return areaInterest.save();
