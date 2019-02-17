@@ -39,8 +39,7 @@ module.exports = (db) => {
             const country = await Country.findByPk(obj.CountryCode);
             if (country === null) throw Boom.notFound(`Can not find Country with code: ${obj.CountryCode}`);
             obj.CityCode = id;
-            await city.update(obj);
-            return city.save();
+            return await city.update(obj);            
         }
     }
 }

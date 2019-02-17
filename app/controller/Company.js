@@ -4,14 +4,18 @@ const Boom = require('Boom');
 module.exports = (db) => {
     const Company = db.getModel('Company');
     return {
-        checkDependency: async (obj) => {
+        validate: async (obj) => {
             let passed = false;
             const City = db.getModel('City');
             const Country = db.getModel('Country');
-            const country = await Country.findByPk(obj.CountryCode);
-            const city = await City.findByPk(obj.CityCode);
-            if(country === null) throw Boom.notFound(`Can not find Country with id ${obj.CountryCode}`);
-            if(city === null) throw Boom.notFound(`Can not find City with id ${obj.CityCode}`);
+            if(obj.CountryCode) {
+                const country = await Country.findByPk(obj.CountryCode);
+                if(country === null) throw Boom.notFound(`Can not find Country with id ${obj.CountryCode}`);
+            }
+            if(obj.CityCode) {
+                const city = await City.findByPk(obj.CityCode);
+                if(city === null) throw Boom.notFound(`Can not find City with id ${obj.CityCode}`);
+            }
             passed = true;
             return passed;
         },
@@ -26,7 +30,7 @@ module.exports = (db) => {
         },
         create: async (obj) => {
             let created;
-            await checkDependency(obj);
+            await validate(obj);
             try {
                 created = await Company.create(obj);
             } catch(err) {
@@ -46,9 +50,9 @@ module.exports = (db) => {
         update: async (id, obj) => {            
             const company = await Company.findByPk(id);
             if (company === null) throw Boom.notFound(`Can not find Company with id "${id}"`);
+            await validate();
             obj.CompanyUID = id;
-            await company.update(obj);
-            return company.save();
+            return await company.update(obj);            
         }
     }
 }

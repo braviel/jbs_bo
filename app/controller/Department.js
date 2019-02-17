@@ -4,7 +4,7 @@ const Boom = require('Boom');
 module.exports = (db) => {
     const Department = db.getModel('Department');    
     return {
-        checkDependency: async (obj) => {
+        validate: async (obj) => {
             let passed = false;
             const City = db.getModel('City');
             const Company = db.getModel('Company');
@@ -26,7 +26,7 @@ module.exports = (db) => {
         },
         create: async (obj) => {
             let created;
-            await checkDependency(obj);
+            await validate(obj);
             try {
                 created = await Department.create(obj);
             } catch(err) {
@@ -35,26 +35,33 @@ module.exports = (db) => {
             }
             return created;
         },
-        delete: async (id) => {            
+        delete: async (id) => {
+            let deleted;
             const department = await Department.findByPk(id);
             if (department === null) throw Boom.notFound();
-            const deleted = await Department.destroy({
-                where: {DepartmentUID: id}
-            });
+            try{
+                deleted = await Department.destroy({
+                    where: {DepartmentUID: id}
+                });
+            } catch (err) {
+                console.error(err);
+                throw Boom.badImplementation(err.message, err);
+            }
             return deleted;
         },
         update: async (id, obj) => {            
             const department = await Department.findByPk(id);
             if (department === null) throw Boom.notFound(`Can not find Department with id "${id}"`);
             obj.DepartmentUID = id;
-            await checkDependency(obj);
+            await validate(obj);
+            let result;
             try{
-                await department.update(obj);
+                result = await department.update(obj);
             } catch (err) {
-                console.log(err);
-            } finally {
-                return department.save();
+                console.error(err);
+                throw Boom.badImplementation(err.message, err);
             }
-        },        
+            return result;
+        },
     }
 }
