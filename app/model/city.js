@@ -5,9 +5,11 @@ module.exports = function(sequelize, DataTypes) {
     const City = sequelize.define('City', {
         CityCode: {
             type: DataTypes.INTEGER,
-            primaryKey: true
-        },
-        CityName: DataTypes.STRING
+            primaryKey: true,
+            autoIncrement: true
+        },        
+        CityName: DataTypes.TEXT('tiny'),
+        Code: DataTypes.STRING
     }, {
         timestamps: false
     });

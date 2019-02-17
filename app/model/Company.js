@@ -8,12 +8,15 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true
         },
         CompanyPhone: DataTypes.STRING(50),
-        CompanyEmail: DataTypes.STRING(255),
+        CompanyEmail: {
+            type: DataTypes.STRING(255),
+            validate: {
+                isEmail: true
+            }
+        },
         CompanyUEN: DataTypes.STRING(50),
         CompanyLogo: DataTypes.BLOB('long'),
-        CompanyName: DataTypes.STRING(255),
-        DepartmentUID: DataTypes.STRING(50),
-        DepartmentName: DataTypes.STRING(255),
+        CompanyName: DataTypes.TEXT('tiny'),
         BuildingName: DataTypes.TEXT('tiny'),
         Address1: DataTypes.STRING,
         Address2: DataTypes.STRING,
@@ -26,6 +29,7 @@ module.exports = function(sequelize, DataTypes) {
         console.log(`Associate ${__filename}`);
         models.Company.belongsTo(models.City, {foreignKey:'CityCode'});
         models.Company.belongsTo(models.Country, {foreignKey:'CountryCode'});
+        models.Company.hasMany(models.Department, {foreignKey:'CompanyUID'});
     };
 
     return Company;

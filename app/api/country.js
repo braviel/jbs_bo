@@ -1,15 +1,14 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
+const Country = require('../controller/Country');
 
 module.exports = [
     {
         method: 'GET',
         path: '/country',
-        handler:  (req, res) => {
-            const Country = req.getModel('Country');
-            const countries =  Country.findAll();
-            return countries;
+        handler: async (req, res) => {            
+            return Country(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -18,14 +17,11 @@ module.exports = [
             notes: 'More implemetation note come here',
         }
     },// LIST
-    {
+    {//GET
         method: 'GET',
         path: '/country/{id}',
-        handler: async (req, res) => {
-            const Country = req.getModel('Country');
-            const country = await Country.findById(req.params.id);
-            if (country === null) throw Boom.notFound();
-            return country.get();
+        handler: async (req, res) => {            
+            return Country(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -42,13 +38,11 @@ module.exports = [
             }
         }
     },//GET
-    {
+    {//CREATE
         method: 'POST',
         path: '/country',
         handler: async (req, res) => {
-            const Country = req.getModel('Country');            
-            const country = await Country.create(req.payload);                
-            return country;                            
+            return Country(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -72,17 +66,11 @@ module.exports = [
             }
         }
     },// CREATE
-    {
+    {//DELETE
         method: 'DELETE',
         path: '/country/{id}',
-        handler: async (req, res) => {
-            const Country = req.getModel('Country');
-            const country = await Country.findByPk(req.params.id);
-            if (country === null) throw Boom.notFound();
-            const deleted = await Country.destroy({
-                where: {CountryCode: req.params.id}
-            });
-            return deleted;
+        handler: async (req, res) => {            
+            return Country(req.getDb()).delete(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -99,18 +87,11 @@ module.exports = [
             }
         }
     },//DELETE
-    {
+    {//UPDATE
         method: ['PUT', 'PATCH'],
         path: '/country/{id}',
         handler: async (req, res) => {
-            const Country = req.getModel('Country');
-            const country = await Country.findById(req.params.id);
-            if (country === null) throw Boom.notFound(`Can not find Country with id "${req.params.id}"`);
-            req.payload.CountryCode = req.params.id;
-            await country.update(req.payload);
-            return country.save();
-                
-            // return req.payload;
+            return Country(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'

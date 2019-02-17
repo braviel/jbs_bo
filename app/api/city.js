@@ -1,15 +1,13 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
-
+const City = require('../controller/City');
 module.exports = [
-    {
+    {//LIST
         method: 'GET',
         path: '/city',
-        handler:  (req, res) => {
-            const City = req.getModel('City');
-            const city =  City.findAll();
-            return city;
+        handler: async (req, res) => {            
+            return City(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -21,11 +19,8 @@ module.exports = [
     {
         method: 'GET',
         path: '/city/{id}',
-        handler: async (req, res) => {
-            const City = req.getModel('City');
-            const city = await City.findById(req.params.id);
-            if (city === null) throw Boom.notFound(`Can not find city with id ${req.params.id}`);
-            return city.get();
+        handler: async (req, res) => {            
+            return City(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -45,13 +40,8 @@ module.exports = [
     {//CREATE
         method: 'POST',
         path: '/city',
-        handler: async (req, res) => {
-            const City = req.getModel('City');
-            const Country = req.getModel('Country');            
-            const country = await Country.findByPk(req.payload.CountryCode);
-            if(country === null) throw Boom.notFound(`Unknow Country with id ${req.payload.CountryCode}`);
-            const city = await City.create(req.payload);
-            return city;
+        handler: async (req, res) => {         
+            return City(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -78,14 +68,8 @@ module.exports = [
     {
         method: 'DELETE',
         path: '/city/{id}',
-        handler: async (req, res) => {
-            const City = req.getModel('City');
-            const city = await City.findById(req.params.id);
-            if (city === null) throw Boom.notFound();
-            const deleted = await City.destroy({
-                where: {CityCode: req.params.id}
-            });
-            return deleted;
+        handler: async (req, res) => {    
+            return City(req.getDb()).delete(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -102,18 +86,11 @@ module.exports = [
             }
         }
     },//DELETE
-    {
+    {// UPDATE
         method: ['PUT', 'PATCH'],
         path: '/city/{id}',
         handler: async (req, res) => {
-            const City = req.getModel('City');
-            const city = await City.findById(req.params.id);
-            if (city === null) throw Boom.notFound(`Can not find City with id "${req.params.id}"`);
-            req.payload.CityCode = req.params.id;
-            await city.update(req.payload);
-            return city.save();
-                
-            // return req.payload;
+            return City(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'

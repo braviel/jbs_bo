@@ -5,18 +5,46 @@ module.exports = function(sequelize, DataTypes) {
     const Profile = sequelize.define('Profile', {
         ProfileUID: {
             type: DataTypes.STRING(50),
-            primaryKey: true
+            primaryKey: true,
+            allowNull: false
         },
-        ProfilePhone: DataTypes.STRING(50),
-        ProfileEmail: DataTypes.STRING(255),
-        ProfileUEN: DataTypes.STRING(45),
+        ProfilePhone: {
+            type: DataTypes.STRING(50),
+            allowNull: false
+        },
+        ProfileEmail: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+            validate: {
+                isEmail: true
+            }
+        },
+        ProfileUEN: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
         ProfilePhoto: DataTypes.BLOB('long'),
-        CommonName: DataTypes.STRING(255),
-        FirstName: DataTypes.STRING(255),
-        LastName: DataTypes.STRING(255),
-        DateOfBirth: DataTypes.DATE,
-        Gender: DataTypes.STRING(15),
-        BuildingName: DataTypes.TEXT('tiny'),
+        CommonName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        FirstName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        LastName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        DateOfBirth: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        Gender: {
+            type: DataTypes.STRING(15),
+            allowNull: false
+        },
+        BuildingName: DataTypes.STRING,
         Address1: DataTypes.STRING,
         Address2: DataTypes.STRING,
         PostalCode: DataTypes.STRING(45),

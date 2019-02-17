@@ -1,7 +1,7 @@
 'use strict';
-// const register = function(server, serverOptions)
-// {
-//     server.route(
+const Boom = require('boom');
+const Joi = require('joi');
+
 module.exports = [
     {
         method: 'GET',
@@ -18,7 +18,7 @@ module.exports = [
             notes: 'More implemetation note come here',
         }
     },// LIST
-    {
+    {// GET
         method: 'GET',
         path: '/profile/{id}',
         handler:  (req, res) => {
@@ -32,8 +32,8 @@ module.exports = [
             description: 'Get Profile by id',
             notes: 'More implemetation note come here',
         }
-    },// LIST
-    {
+    },// GET
+    {// CREATE
         method: 'POST',
         path: '/profile',
         handler:  (req, res) => {
@@ -44,10 +44,25 @@ module.exports = [
         config: {
             auth: false, //'token',
             tags: ['api','profile'],
-            description: 'List all Profile',
+            description: 'create Profile',
             notes: 'More implemetation note come here',
+            plugins: {
+                'hapi-swagger': {
+                    payloadType: 'form'
+                }
+            },
+            validate: {
+                payload: Joi.object({
+                    ProfileUID: Joi.string(),
+                    ProfilePhone: Joi.string(),
+                    PhoneEmail: Joi.number()
+                }),
+                failAction: async (request, h, err) => {
+                    throw Boom.badData(err);
+                }
+            }
         }
-    },// LIST
+    },// CREATE
 ]
 //     );
 // }

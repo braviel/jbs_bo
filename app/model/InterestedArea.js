@@ -2,15 +2,15 @@
 
 module.exports = function(sequelize, DataTypes) {
     console.log(`Define ${__filename}`);
-    const AreaInterest = sequelize.define('AreaInterest', {
-        AreaInterestCode: {
+    const InterestedArea = sequelize.define('InterestedArea', {
+        AreaCode: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        AreaInterestName: DataTypes.STRING,
+        AreaName: DataTypes.TEXT('tiny'),
     }, {
         timestamps: false
     });
-    return AreaInterest;
+    return InterestedArea;
 }

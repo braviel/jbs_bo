@@ -4,12 +4,21 @@ module.exports = function(sequelize, DataTypes) {
     console.log(`Define ${__filename}`);
     const Group = sequelize.define('Group', {
         GroupUID: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.UUID,
+            default: DataTypes.UUIDV4,
             primaryKey: true
         },
-        DepartmentUID: DataTypes.STRING(50),
+        GroupName: {
+            type: DataTypes.TEXT('tiny'),
+            allowNull: false
+        },
         GroupPhone: DataTypes.STRING(50),
-        GroupEmail: DataTypes.STRING(255),        
+        GroupEmail: {
+            type: DataTypes.STRING(255),
+            validate: {
+                isEmail: true
+            }
+        },
         GroupLogo: DataTypes.BLOB('long'),        
         BuildingName: DataTypes.TEXT('tiny'),
         Address1: DataTypes.STRING,        
@@ -22,9 +31,10 @@ module.exports = function(sequelize, DataTypes) {
     });
     Group.associate = (models) => {
         console.log(`Associate ${__filename}`);
-        models.Group.belongsTo(models.City, {foreignKey: 'CityCode'});
         models.Group.belongsTo(models.Country, {foreignKey: 'CountryCode'});
+        models.Group.belongsTo(models.City, {foreignKey: 'CityCode'});
         models.Group.belongsTo(models.Company, {foreignKey: 'CompanyUID'});
+        models.Group.belongsTo(models.Department, {foreignKey: 'DepartmentUID'});
     };
     return Group;
 }
