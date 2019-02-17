@@ -4,28 +4,28 @@ const Boom = require('Boom');
 module.exports = (db) => {
     const InterestedArea = db.getModel('InterestedArea');
     return {
-        validate: async () => {
+        validate: async function () {
 
         },
-        list: async (opts) => {        
+        list: async function(opts) {
             return await InterestedArea.findAll();
         },
-        get: async (id) => {            
+        get: async function(id) {
             const interestedArea = await InterestedArea.findByPk(id);
             if (interestedArea === null) throw Boom.notFound();
             return interestedArea.get();
         },
-        create: async (obj) => {
+        create: async function(obj) {
             let created;
             try {
                 created = await InterestedArea.create(obj);
             } catch(err) {
                 console.error(err);
-                throw Boom.expectationFailed(err.message, err);
+                throw Boom.badImplementation(err.message, err);
             }
             return created;
         },
-        delete: async (id) => {            
+        delete: async function (id) {
             const interestedArea = await InterestedArea.findByPk(id);
             if (interestedArea === null) throw Boom.notFound();
             let deleted;
@@ -39,7 +39,7 @@ module.exports = (db) => {
             }
             return deleted;
         },
-        update: async (id, obj) => {            
+        update: async function(id, obj) {
             const interestedArea = await InterestedArea.findByPk(id);
             if (interestedArea === null) throw Boom.notFound(`Can not find InterestedArea with id "${id}"`);
             obj.AreaCode = id;

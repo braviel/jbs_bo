@@ -4,7 +4,7 @@ const Boom = require('Boom');
 module.exports = (db) => {
     const Department = db.getModel('Department');    
     return {
-        validate: async (obj) => {
+        validate: async function (obj) {
             let passed = false;
             const City = db.getModel('City');
             const Company = db.getModel('Company');
@@ -15,18 +15,18 @@ module.exports = (db) => {
             passed = true;
             return passed;
         },
-        list: async (opt) => {        
+        list: async function(opt) {
             const departments = await Department.findAll();
             return departments;
         },
-        get: async (id) => {            
+        get: async function (id) {
             const department = await Department.findByPk(id);
             if (department === null) throw Boom.notFound();
             return department.get();
         },
-        create: async (obj) => {
+        create: async function(obj) {
             let created;
-            await validate(obj);
+            await this.validate(obj);
             try {
                 created = await Department.create(obj);
             } catch(err) {
@@ -35,7 +35,7 @@ module.exports = (db) => {
             }
             return created;
         },
-        delete: async (id) => {
+        delete: async function(id) {
             let deleted;
             const department = await Department.findByPk(id);
             if (department === null) throw Boom.notFound();
@@ -49,7 +49,7 @@ module.exports = (db) => {
             }
             return deleted;
         },
-        update: async (id, obj) => {            
+        update: async function (id, obj) {
             const department = await Department.findByPk(id);
             if (department === null) throw Boom.notFound(`Can not find Department with id "${id}"`);
             obj.DepartmentUID = id;

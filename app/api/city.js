@@ -6,7 +6,7 @@ module.exports = [
     {//LIST
         method: 'GET',
         path: '/city',
-        handler: async (req, res) => {            
+        handler: async (req, res) => {
             return City(req.getDb()).list();
         },
         config: {
@@ -15,8 +15,8 @@ module.exports = [
             description: 'List All Cities',
             notes: 'More implemetation note come here',
         }
-    },// LIST
-    {
+    },//LIST
+    {//GET
         method: 'GET',
         path: '/city/{id}',
         handler: async (req, res) => {            

@@ -4,7 +4,7 @@ const Boom = require('Boom');
 module.exports = (db) => {
     const InterestedSkill = db.getModel('InterestedSkill');    
     return {
-        validate: async (obj) => {
+        validate: async function(obj) {
             const InterestedArea = await db.getModel('InterestedArea');
             let area;
             try {
@@ -16,18 +16,18 @@ module.exports = (db) => {
             }
             return area;
         },
-        list: async (opt) => {        
-            return await InterestedSkill.findAll();            
+        list: async function(opt) {
+            return await InterestedSkill.findAll();
         },
-        get: async (id) => {            
+        get: async function(id) {
             const result = await InterestedSkill.findByPk(id);
             if (result === null) throw Boom.notFound();
             return result.get();
         },
-        create: async (obj) => {
+        create: async function(obj) {
             let result;
-            await validate(obj);
-            try {                
+            await this.validate(obj);
+            try {
                 result = await InterestedSkill.create(obj);
             } catch(err) {
                 console.error(err);
@@ -35,7 +35,7 @@ module.exports = (db) => {
             }
             return result;
         },
-        delete: async (id) => {
+        delete: async function(id) {
             let result;
             try {
                 const skill = await InterestedSkill.findByPk(id);
@@ -49,13 +49,12 @@ module.exports = (db) => {
             }
             return result;
         },
-        update: async (id, obj) => {
+        update: async function(id, obj) {
             let result;
-            try{
+            try {
                 const skill = await InterestedSkill.findByPk(id);
-                if (skill === null) throw Boom.notFound(`Can not find InterestedArea with id "${id}"`);
-                const area = await InterestedArea.findByPk(obj.AreaCode);
-                if (area === null) throw Boom.notFound(`Can not find InterestedArea with code: ${obj.AreaCode}`);
+                if (skill === null) throw Boom.notFound(`Can not find InterestedArea with id "${id}"`);                
+                await this.validate(obj);
                 obj.SkillCode = id;
                 result = await skill.update(obj);
             } catch (err) {

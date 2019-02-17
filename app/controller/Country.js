@@ -4,16 +4,16 @@ const Boom = require('Boom');
 module.exports = (db) => {
     const Country = db.getModel('Country');
     return {
-        list: async (opt) => {        
+        list: async function(opt) {
             const countries = await Country.findAll();
             return countries;
         },
-        get: async (id) => {            
+        get: async function (id) {
             const country = await Country.findByPk(id);
             if (country === null) throw Boom.notFound();
             return country.get();
         },
-        create: async (country) => {
+        create: async function(country) {
             let created;
             try {
                 created = await Country.create(country);
@@ -31,12 +31,11 @@ module.exports = (db) => {
             });
             return deleted;
         },
-        update: async (id, payload) => {            
+        update: async function(id, payload) {
             const country = await Country.findByPk(id);
             if (country === null) throw Boom.notFound(`Can not find Country with id "${id}"`);
             payload.CountryCode = id;
-            await country.update(payload);
-            return country.save();
+            return await country.update(payload);
         }
     }
 }

@@ -4,7 +4,7 @@ const Boom = require('Boom');
 module.exports = (db) => {
     const Company = db.getModel('Company');
     return {
-        validate: async (obj) => {
+        validate: async function(obj){
             let passed = false;
             const City = db.getModel('City');
             const Country = db.getModel('Country');
@@ -19,18 +19,18 @@ module.exports = (db) => {
             passed = true;
             return passed;
         },
-        list: async (opt) => {        
+        list: async function(opt) {        
             const company = await Company.findAll();
             return company;
         },
-        get: async (id) => {            
+        get: async function(id) {            
             const company = await Company.findByPk(id);
             if (company === null) throw Boom.notFound();
             return company.get();
         },
-        create: async (obj) => {
+        create: async function(obj){
             let created;
-            await validate(obj);
+            await this.validate(obj);
             try {
                 created = await Company.create(obj);
             } catch(err) {
@@ -39,7 +39,7 @@ module.exports = (db) => {
             }
             return created;
         },
-        delete: async (id) => {            
+        delete: async function(id) {            
             const company = await Company.findByPk(id);
             if (company === null) throw Boom.notFound();
             const deleted = await Company.destroy({
@@ -47,10 +47,10 @@ module.exports = (db) => {
             });
             return deleted;
         },
-        update: async (id, obj) => {            
+        update: async function(id, obj) {
             const company = await Company.findByPk(id);
             if (company === null) throw Boom.notFound(`Can not find Company with id "${id}"`);
-            await validate();
+            await this.validate();
             obj.CompanyUID = id;
             return await company.update(obj);            
         }

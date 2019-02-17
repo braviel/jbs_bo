@@ -1,18 +1,18 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
-const Country = require('../controller/Company');
+const Company = require('../controller/Company');
 
 module.exports = [
     {
         method: 'GET',
         path: '/company',
         handler: async (req, res) => {            
-            return Country(req.getDb()).list();
+            return Company(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
-            tags: ['api','country'],
+            tags: ['api','company'],
             description: 'List All Country',
             notes: 'More implemetation note come here',
         }
@@ -21,16 +21,16 @@ module.exports = [
         method: 'GET',
         path: '/company/{id}',
         handler: async (req, res) => {            
-            return Country(req.getDb()).get(req.params.id);
+            return Company(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
-            tags: ['api','country'],
-            description: 'Get Country by Id',
+            tags: ['api','company'],
+            description: 'Get company by Id',
             notes: 'More implemetation note come here',
             validate: {
                 params: {
-                    id: Joi.number()
+                    id: Joi.string()
                 },
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
@@ -42,12 +42,12 @@ module.exports = [
         method: 'POST',
         path: '/company',
         handler: async (req, res) => {
-            return Country(req.getDb()).create(req.payload);
+            return Company(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
-            tags: ['api','country'],
-            description: 'Create new Country',
+            tags: ['api','company'],
+            description: 'Create new company',
             notes: 'More implemetation note come here',
             plugins: {
                 'hapi-swagger': {
@@ -56,9 +56,18 @@ module.exports = [
             },
             validate: {
                 payload: Joi.object({
-                    CountryCode: Joi.number(),
-                    CountryName: Joi.string(),
-                    CallingCode: Joi.string()
+                    CompanyUID: Joi.string(),
+                    CompanyPhone: Joi.string(),
+                    CompanyEmail: Joi.string(),
+                    CompanyUEN: Joi.string(),
+                    CompanyLogo: Joi.binary().optional(),
+                    CompanyName: Joi.string(),
+                    BuildingName: Joi.string(),
+                    Address1: Joi.string(),
+                    Address2: Joi.string(),
+                    PostalCode: Joi.string(),
+                    CityCode: Joi.string(),
+                    CountryCode: Joi.string()
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
@@ -70,16 +79,16 @@ module.exports = [
         method: 'DELETE',
         path: '/company/{id}',
         handler: async (req, res) => {            
-            return Country(req.getDb()).delete(req.params.id);
+            return Company(req.getDb()).delete(req.params.id);
         },
         config: {
             auth: false, //'token',
-            tags: ['api','country'],
+            tags: ['api','company'],
             description: 'Delete Country by Id',
             notes: 'More implemetation note come here',
             validate: {
                 params: {
-                    id: Joi.number()
+                    id: Joi.string()
                 },
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
@@ -91,11 +100,11 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/company/{id}',
         handler: async (req, res) => {
-            return Country(req.getDb()).update(req.params.id, req.payload);
+            return Company(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'
-            tags: ['api','country'],
+            tags: ['api','company'],
             description: 'Update Country',
             notes: 'More implemetation note come here',
             plugins: {
@@ -107,9 +116,19 @@ module.exports = [
                 params: {
                     id: Joi.number()
                 },
-                payload: Joi.object({                    
-                    CountryName: Joi.string(),
-                    CallingCode: Joi.string()
+                payload: Joi.object({
+                    CompanyUID: Joi.string(),
+                    CompanyPhone: Joi.string(),
+                    CompanyEmail: Joi.string(),
+                    CompanyUEN: Joi.string(),
+                    CompanyLogo: Joi.binary().optional(),
+                    CompanyName: Joi.string(),
+                    BuildingName: Joi.string(),
+                    Address1: Joi.string(),
+                    Address2: Joi.string(),
+                    PostalCode: Joi.string(),
+                    CityCode: Joi.string(),
+                    CountryCode: Joi.string()
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);

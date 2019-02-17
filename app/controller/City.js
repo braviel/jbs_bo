@@ -5,15 +5,15 @@ module.exports = (db) => {
     const City = db.getModel('City');
     const Country = db.getModel('Country');
     return {
-        list: async (opt) => {        
+        list: async function (opt) {        
             return await City.findAll();            
         },
-        get: async (id) => {            
+        get: async function(id) {            
             const result = await City.findByPk(id);
             if (result === null) throw Boom.notFound();
             return result.get();
         },
-        create: async (obj) => {
+        create: async function (obj) {
             let result;
             const country = await Country.findByPk(obj.CountryCode);
             if (country === null) throw Boom.notFound(`Can not find Country with code: ${obj.CountryCode}`);
@@ -25,7 +25,7 @@ module.exports = (db) => {
             }
             return result;
         },
-        delete: async (id) => {            
+        delete: async function(id) {            
             const city = await City.findByPk(id);
             if (city === null) throw Boom.notFound();
             const result = await City.destroy({
@@ -33,7 +33,7 @@ module.exports = (db) => {
             });
             return result;
         },
-        update: async (id, obj) => {            
+        update: async function(id, obj) {            
             const city = await City.findByPk(id);
             if (city === null) throw Boom.notFound(`Can not find Country with id "${id}"`);
             const country = await Country.findByPk(obj.CountryCode);
