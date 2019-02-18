@@ -30,7 +30,7 @@ module.exports = [
             notes: 'More implemetation note come here',
             validate: {
                 params: {
-                    id: Joi.number()
+                    id: Joi.number().required()
                 },
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
