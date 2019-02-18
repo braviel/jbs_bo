@@ -7,7 +7,7 @@ const register = function(server, serverOptions) {
     glob.sync("/api/**/*.js", {
         root: __dirname
     }).forEach( file => {
-        console.log(`@@@ Route: ${file}.`);
+        console.log(`@@@ Add Route: ${file}`);
         const route = require(file);
         server.route(route);        
     } );
