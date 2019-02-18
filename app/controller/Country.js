@@ -1,5 +1,5 @@
 'use strict';
-const Boom = require('Boom');
+const Boom = require('boom');
 
 module.exports = (db) => {
     const Country = db.getModel('Country');
