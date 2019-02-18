@@ -20,6 +20,7 @@
   "homepage": "https://github.com/braviel/jbs_bo#readme",
   "dependencies": {
     "bcrypt": "^3.0.4",
+    "boom": "^7.3.0",
     "code": "^5.2.4",
     "glob": "^7.1.3",
     "glue": "^6.0.0",
