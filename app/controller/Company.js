@@ -1,6 +1,5 @@
 'use strict';
-const Boom = require('Boom');
-const Joi = require('Joi');
+const Boom = require('boom');
 module.exports = (db) => {
     const Company = db.getModel('Company');
     return {        
@@ -35,7 +34,7 @@ module.exports = (db) => {
                 created = await Company.create(obj);
             } catch(err) {
                 console.error(err);
-                throw Boom.expectationFailed(err.message, err);
+                // throw Boom.expectationFailed(err.message, err);
             }
             return created;
         },
@@ -57,7 +56,7 @@ module.exports = (db) => {
             result = await company.update(obj);
             } catch (err) {
                 console.error(err);
-                throw Boom.expectationFailed(err.message);
+                // throw Boom.expectationFailed(err.message);
             }
             return result;
         },

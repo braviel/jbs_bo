@@ -1,5 +1,6 @@
 'use strict';
 const Joi = require('joi');
+
 module.exports = {
     onCreateValidator: Joi.object({
         CompanyUID: Joi.string().required(),
