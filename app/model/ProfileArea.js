@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: true
     });    
-    ProfileArea.associate = (models) => {
+    ProfileArea.associate = function(models) {
         models.Profile.belongsToMany(models.InterestedArea, {through: 'ProfileArea'});
         models.InterestedArea.belongsToMany(models.Profile, {through: 'ProfileArea'});
     }

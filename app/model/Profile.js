@@ -54,7 +54,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: true
     });
-    Profile.associate = (models) => {
+    Profile.associate = function(models) {
         console.log(`Associate ${__filename}`);
         models.Profile.belongsTo(models.City, {foreignKey: 'CityCode'});
         models.Profile.belongsTo(models.Country, {foreignKey: 'CountryCode'});

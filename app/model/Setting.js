@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: false
     });    
-    Setting.associate = (models) => {
+    Setting.associate = function(models) {
         models.Setting.belongsTo(models.Profile, {foreignKey: 'ProfileUID'})
     }
     return Setting;

@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: true
     }); 
-    GroupManager.associate = (models) => {
+    GroupManager.associate = function(models){
         console.log(`Associate ${__filename}`);        
         models.GroupManager.belongsTo(models.Group, {foreignKey: 'GroupUID'});
         models.Group.hasMany(models.GroupManager, {foreignKey: 'GroupUID'});  
