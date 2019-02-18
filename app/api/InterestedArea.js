@@ -1,15 +1,14 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
+const InterestedArea = require('../controller/InterestedArea');
 
 module.exports = [
     {
         method: 'GET',
         path: '/interest',
         handler:  (req, res) => {
-            const AreaInterest = req.getModel('AreaInterest');
-            const interests =  AreaInterest.findAll();
-            return interests;
+            return InterestedArea(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -22,10 +21,7 @@ module.exports = [
         method: 'GET',
         path: '/interest/{id}',
         handler: async (req, res) => {
-            const AreaInterest = req.getModel('AreaInterest');
-            const areaInterest = await AreaInterest.findByPk(req.params.id);
-            if (areaInterest === null) throw Boom.notFound(`Can not find Interest with id ${req.params.id}`);
-            return areaInterest.get();
+            return InterestedArea(req.getDb()).get(req.params.id);;
         },
         config: {
             auth: false, //'token',
@@ -46,10 +42,7 @@ module.exports = [
         method: 'POST',
         path: '/interest',
         handler: async (req, res) => {
-            const AreaInterest = req.getModel('AreaInterest');
-            req.payload.InterestCode = null;
-            const areaInterest = await AreaInterest.create(req.payload);
-            return areaInterest;
+            return InterestedArea(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -63,7 +56,7 @@ module.exports = [
             },
             validate: {
                 payload: Joi.object({                    
-                    AreaInterestName: Joi.string()
+                    AreaName: Joi.string()
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
@@ -75,13 +68,7 @@ module.exports = [
         method: 'DELETE',
         path: '/interest/{id}',
         handler: async (req, res) => {
-            const AreaInterest = req.getModel('AreaInterest');
-            const areaInterest = await AreaInterest.findById(req.params.id);
-            if (areaInterest === null) throw Boom.notFound();
-            const deleted = await AreaInterest.destroy({
-                where: {AreaInterestCode: req.params.id}
-            });
-            return deleted;
+            return InterestedArea(req.getDb()).delete(req.params.id);;
         },
         config: {
             auth: false, //'token',
@@ -102,12 +89,7 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/interest/{id}',
         handler: async (req, res) => {
-            const AreaInterest = req.getModel('AreaInterest');
-            const areaInterest = await AreaInterest.findById(req.params.id);
-            if (areaInterest === null) throw Boom.notFound(`Can not find interest with id "${req.params.id}"`);
-            req.payload.AreaInterestCode = req.params.id;
-            await areaInterest.update(req.payload);
-            return areaInterest.save();
+            return InterestedArea(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'
@@ -124,7 +106,7 @@ module.exports = [
                     id: Joi.number()
                 },
                 payload: Joi.object({
-                    AreaInterestName: Joi.string()
+                    AreaName: Joi.string()
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);

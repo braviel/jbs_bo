@@ -1,15 +1,14 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
-
+const Profile = require('../controller/Profile');
+const ProfileValidator = require('../validator/Profile.Validator');
 module.exports = [
     {
         method: 'GET',
         path: '/profile',
         handler:  (req, res) => {
-            const Profile = req.getModel('Profile');
-            const profile =  Profile.findAll();
-            return profile;
+            return Profile(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -22,9 +21,7 @@ module.exports = [
         method: 'GET',
         path: '/profile/{id}',
         handler:  (req, res) => {
-            const Profile = req.getModel('Profile');
-            const profile =  Profile.findByPk(req.params.id);
-            return profile;
+            return Profile(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -37,9 +34,7 @@ module.exports = [
         method: 'POST',
         path: '/profile',
         handler:  (req, res) => {
-            const Profile = req.getModel('Profile');
-            const profile =  Profile.findAll();
-            return profile;
+            return Profile(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token',
@@ -52,17 +47,61 @@ module.exports = [
                 }
             },
             validate: {
-                payload: Joi.object({
-                    ProfileUID: Joi.string(),
-                    ProfilePhone: Joi.string(),
-                    PhoneEmail: Joi.number()
-                }),
+                payload: ProfileValidator.onCreateValidator,
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
                 }
             }
         }
     },// CREATE
+    {//DELETE
+        method: 'DELETE',
+        path: '/profile/{id}',
+        handler: async (req, res) => {            
+            return Company(req.getDb()).delete(req.params.id);
+        },
+        config: {
+            auth: false, //'token',
+            tags: ['api','profile'],
+            description: 'Delete Country by Id',
+            notes: 'More implemetation note come here',
+            validate: {
+                params: {
+                    id: Joi.string()
+                },
+                failAction: async (request, h, err) => {
+                    throw Boom.badData(err);
+                }
+            }
+        }
+    },//DELETE
+    {//UPDATE
+        method: ['PUT', 'PATCH'],
+        path: '/profile/{id}',
+        handler: async (req, res) => {
+            return Company(req.getDb()).update(req.params.id, req.payload);
+        },
+        config: {
+            auth: false, //'token'
+            tags: ['api','company'],
+            description: 'Update profile',
+            notes: 'More implemetation note come here',
+            plugins: {
+                'hapi-swagger': {
+                    payloadType: 'form'
+                }
+            },
+            validate: {
+                params: {
+                    id: Joi.number()
+                },
+                payload: ProfileValidator.onUpdateValidator,
+                failAction: async (request, h, err) => {
+                    throw Boom.badData(err);
+                }
+            }
+        }
+    },// UPDATE
 ]
 //     );
 // }

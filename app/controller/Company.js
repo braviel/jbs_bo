@@ -1,9 +1,9 @@
 'use strict';
 const Boom = require('Boom');
-
+const Joi = require('Joi');
 module.exports = (db) => {
     const Company = db.getModel('Company');
-    return {
+    return {        
         validate: async function(obj){
             let passed = false;
             const City = db.getModel('City');
@@ -48,11 +48,18 @@ module.exports = (db) => {
             return deleted;
         },
         update: async function(id, obj) {
+            let result;
             const company = await Company.findByPk(id);
             if (company === null) throw Boom.notFound(`Can not find Company with id "${id}"`);
-            await this.validate();
+            await this.validate(obj);
             obj.CompanyUID = id;
-            return await company.update(obj);            
-        }
+            try{
+            result = await company.update(obj);
+            } catch (err) {
+                console.error(err);
+                throw Boom.expectationFailed(err.message);
+            }
+            return result;
+        },
     }
 }

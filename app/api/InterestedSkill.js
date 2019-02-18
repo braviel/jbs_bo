@@ -1,15 +1,13 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
-
+const InterestedSkill = require('../controller/InterestedSkill');
 module.exports = [
     {
         method: 'GET',
         path: '/skill',
         handler:  (req, res) => {
-            const AreaSkill = req.getModel('AreaSkill');
-            const skills =  AreaSkill.findAll();
-            return skills;
+            return InterestedSkill(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -22,10 +20,7 @@ module.exports = [
         method: 'GET',
         path: '/skill/{id}',
         handler: async (req, res) => {
-            const AreaSkill = req.getModel('AreaSkill');
-            const areaSkill = await AreaSkill.findByPk(req.params.id);
-            if (areaSkill === null) throw Boom.notFound(`Can not find Skill with id ${req.params.id}`);
-            return areaSkill.get();
+            return InterestedSkill(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -46,13 +41,7 @@ module.exports = [
         method: 'POST',
         path: '/skill',
         handler: async (req, res) => {
-            const AreaSkill = req.getModel('AreaSkill');
-            const AreaInterest = req.getModel('AreaInterest');
-            const areaInterest = await AreaInterest.findByPk(req.payload.AreaInterestCode);
-            if (areaInterest == null) throw Boom.notFound(`Can not find Area Interest with id ${req.payload.AreaInterestCode}`);
-            console.log('GOT IT: ' + areaInterest.AreaInterestCode);
-            const areaSkill = await AreaSkill.build(req.payload);
-            return areaSkill.save();
+            return InterestedSkill(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -66,8 +55,8 @@ module.exports = [
             },
             validate: {
                 payload: Joi.object({                    
-                    AreaSkillName: Joi.string(),
-                    AreaInterestCode: Joi.number().integer()
+                    SkillName: Joi.string(),
+                    AreaCode: Joi.number().integer()
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
@@ -79,13 +68,7 @@ module.exports = [
         method: 'DELETE',
         path: '/skill/{id}',
         handler: async (req, res) => {
-            const AreaSkill = req.getModel('AreaSkill');
-            const areaSkill = await AreaSkill.findById(req.params.id);
-            if (areaSkill === null) throw Boom.notFound(`Can not find skill with id ${req.params.id}`);
-            const deleted = await AreaSkill.destroy({
-                where: {AreaSkillCode: req.params.id}
-            });
-            return deleted;
+            return InterestedSkill(req.getDb()).delete(req.parms.id);
         },
         config: {
             auth: false, //'token',
@@ -106,12 +89,7 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/skill/{id}',
         handler: async (req, res) => {
-            const AreaSkill = req.getModel('AreaSkill');
-            const areaSkill = await AreaSkill.findById(req.params.id);
-            if (areaSkill === null) throw Boom.notFound(`Can not find skill with id "${req.params.id}"`);
-            req.payload.AreaSkillCode = req.params.id;
-            await areaSkill.update(req.payload);
-            return areaSkill.save();
+            return InterestedSkill(req.getDb()).update(req.parms.id, req.payload);
         },
         config: {
             auth: false, //'token'
@@ -128,8 +106,8 @@ module.exports = [
                     id: Joi.number().integer()
                 },
                 payload: Joi.object({
-                    AreaSkillName: Joi.string(),
-                    AreaInterestCode: Joi.number().integer(),
+                    SkillName: Joi.string(),
+                    AreaCode: Joi.number().integer(),
                 }),
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);

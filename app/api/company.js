@@ -2,6 +2,7 @@
 const Boom = require('boom');
 const Joi = require('joi');
 const Company = require('../controller/Company');
+const CompanyValidator = require('../validator/Company.Validator');
 
 module.exports = [
     {
@@ -55,20 +56,7 @@ module.exports = [
                 }
             },
             validate: {
-                payload: Joi.object({
-                    CompanyUID: Joi.string(),
-                    CompanyPhone: Joi.string(),
-                    CompanyEmail: Joi.string(),
-                    CompanyUEN: Joi.string(),
-                    CompanyLogo: Joi.binary().optional(),
-                    CompanyName: Joi.string(),
-                    BuildingName: Joi.string(),
-                    Address1: Joi.string(),
-                    Address2: Joi.string(),
-                    PostalCode: Joi.string(),
-                    CityCode: Joi.string(),
-                    CountryCode: Joi.string()
-                }),
+                payload: CompanyValidator.onCreateValidator,
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
                 }
@@ -84,7 +72,7 @@ module.exports = [
         config: {
             auth: false, //'token',
             tags: ['api','company'],
-            description: 'Delete Country by Id',
+            description: 'Delete company by Id',
             notes: 'More implemetation note come here',
             validate: {
                 params: {
@@ -105,7 +93,7 @@ module.exports = [
         config: {
             auth: false, //'token'
             tags: ['api','company'],
-            description: 'Update Country',
+            description: 'Update company',
             notes: 'More implemetation note come here',
             plugins: {
                 'hapi-swagger': {
@@ -116,20 +104,7 @@ module.exports = [
                 params: {
                     id: Joi.number()
                 },
-                payload: Joi.object({
-                    CompanyUID: Joi.string(),
-                    CompanyPhone: Joi.string(),
-                    CompanyEmail: Joi.string(),
-                    CompanyUEN: Joi.string(),
-                    CompanyLogo: Joi.binary().optional(),
-                    CompanyName: Joi.string(),
-                    BuildingName: Joi.string(),
-                    Address1: Joi.string(),
-                    Address2: Joi.string(),
-                    PostalCode: Joi.string(),
-                    CityCode: Joi.string(),
-                    CountryCode: Joi.string()
-                }),
+                payload: CompanyValidator.onUpdateValidator,
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
                 }
