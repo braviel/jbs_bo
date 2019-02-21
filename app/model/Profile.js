@@ -56,8 +56,8 @@ module.exports = function(sequelize, DataTypes) {
     });
     Profile.associate = function(models) {
         console.log(`Associate ${__filename}`);
-        models.Profile.belongsTo(models.City, {foreignKey: 'CityCode'});
-        models.Profile.belongsTo(models.Country, {foreignKey: 'CountryCode'});
+        models.Profile.belongsTo(models.City, {foreignKey: 'CityCode', onDelete: 'RESTRICT'});
+        models.Profile.belongsTo(models.Country, {foreignKey: 'CountryCode', onDelete: 'RESTRICT'});
     };
     return Profile;
 }

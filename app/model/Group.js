@@ -31,10 +31,10 @@ module.exports = function(sequelize, DataTypes) {
     });
     Group.associate = function(models) {
         console.log(`Associate ${__filename}`);
-        models.Group.belongsTo(models.Country, {foreignKey: 'CountryCode'});
-        models.Group.belongsTo(models.City, {foreignKey: 'CityCode'});
-        models.Group.belongsTo(models.Company, {foreignKey: 'CompanyUID'});
-        models.Group.belongsTo(models.Department, {foreignKey: 'DepartmentUID'});
+        models.Group.belongsTo(models.Country, {foreignKey: 'CountryCode', onDelete: 'RESTRICT'});
+        models.Group.belongsTo(models.City, {foreignKey: 'CityCode', onDelete: 'RESTRICT'});
+        models.Group.belongsTo(models.Company, {foreignKey: 'CompanyUID', onDelete: 'RESTRICT'});
+        models.Group.belongsTo(models.Department, {foreignKey: 'DepartmentUID', onDelete: 'RESTRICT'});
     };
     return Group;
 }

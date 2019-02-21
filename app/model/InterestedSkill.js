@@ -14,8 +14,8 @@ module.exports = function(sequelize, DataTypes) {
     });
     InterestedSkill.associate = function(models)  {
         console.log(`@@@ Associate ${__filename}`);
-        models.InterestedSkill.belongsTo(models.InterestedArea, {foreignKey: 'AreaCode'});
-        models.InterestedArea.hasMany(models.InterestedSkill, {foreignKey: 'AreaCode'});        
+        models.InterestedSkill.belongsTo(models.InterestedArea, {foreignKey: 'AreaCode', onDelete: 'RESTRICT'});
+        models.InterestedArea.hasMany(models.InterestedSkill, {foreignKey: 'AreaCode', onDelete: 'RESTRICT'});        
     }
     return InterestedSkill; 
 }

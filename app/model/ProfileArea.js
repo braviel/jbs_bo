@@ -7,8 +7,8 @@ module.exports = function(sequelize, DataTypes) {
         timestamps: true
     });    
     ProfileArea.associate = function(models) {
-        models.Profile.belongsToMany(models.InterestedArea, {through: 'ProfileArea'});
-        models.InterestedArea.belongsToMany(models.Profile, {through: 'ProfileArea'});
+        models.Profile.belongsToMany(models.InterestedArea, {through: 'ProfileArea', onDelete: 'RESTRICT'});
+        models.InterestedArea.belongsToMany(models.Profile, {through: 'ProfileArea', onDelete: 'RESTRICT'});
     }
     return ProfileArea;
 }

@@ -7,8 +7,8 @@ module.exports = function(sequelize, DataTypes) {
         timestamps: true
     });    
     ProfileSkill.associate = function(models) {
-        models.Profile.belongsToMany(models.InterestedSkill, {through: models.ProfileSkill});
-        models.InterestedSkill.belongsToMany(models.Profile, {through: models.ProfileSkill});
+        models.Profile.belongsToMany(models.InterestedSkill, {through: models.ProfileSkill, onDelete: 'RESTRICT'});
+        models.InterestedSkill.belongsToMany(models.Profile, {through: models.ProfileSkill, onDelete: 'RESTRICT'});
     }
     return ProfileSkill;
 }

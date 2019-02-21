@@ -27,9 +27,9 @@ module.exports = function(sequelize, DataTypes) {
 
     Company.associate = function(models) {
         console.log(`Associate ${__filename}`);
-        models.Company.belongsTo(models.City, {foreignKey:'CityCode'});
-        models.Company.belongsTo(models.Country, {foreignKey:'CountryCode'});
-        models.Company.hasMany(models.Department, {foreignKey:'CompanyUID'});
+        models.Company.belongsTo(models.City, {foreignKey:'CityCode', onDelete: 'RESTRICT'});
+        models.Company.belongsTo(models.Country, {foreignKey:'CountryCode', onDelete: 'RESTRICT'});
+        models.Company.hasMany(models.Department, {foreignKey:'CompanyUID', onDelete: 'RESTRICT'});
     };
 
     return Company;
