@@ -25,8 +25,14 @@ module.exports = (db) => {
             return profiles;
         },
         get: async function(id) {
-            const profile = await Profile.findByPk(id);
-            if (profile === null) throw Boom.notFound();
+            let profile;
+            try{
+                profile = await Profile.findByPk(id);
+                if (profile === null) throw Boom.notFound();
+            } catch(err) {
+                console.error(err);
+                throw Boom.notFound(err.message);
+            }
             return profile.get();
         },
         create: async function (obj) {

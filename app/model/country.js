@@ -4,9 +4,11 @@ module.exports = function(sequelize, DataTypes) {
     const Country = sequelize.define('Country', {
         CountryCode: {
             type: DataTypes.INTEGER,
-            primaryKey: true
-        },
+            primaryKey: true,
+            autoIncrement: true
+        },        
         CountryName: DataTypes.STRING,
+        CountryCode2: DataTypes.STRING(2),
         CallingCode: DataTypes.STRING
     }, {
         timestamps: false

@@ -20,14 +20,28 @@ module.exports = [
     {// GET
         method: 'GET',
         path: '/profile/{id}',
-        handler:  (req, res) => {
-            return Profile(req.getDb()).get(req.params.id);
+        handler: async (req, res) => {
+            let result;
+            try {
+                result = await Profile(req.getDb()).get(req.params.id);
+            } catch(err) {
+                throw err;
+            }
+            return result
         },
         config: {
             auth: false, //'token',
             tags: ['api','profile'],
             description: 'Get Profile by id',
             notes: 'More implemetation note come here',
+            validate: {
+                params: {
+                    id: Joi.string().required()
+                },
+                failAction: async (request, h, err) => {
+                    throw Boom.badData(err);
+                }
+            }
         }
     },// GET
     {// CREATE
@@ -67,7 +81,7 @@ module.exports = [
             notes: 'More implemetation note come here',
             validate: {
                 params: {
-                    id: Joi.string()
+                    id: Joi.string().required()
                 },
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
