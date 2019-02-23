@@ -11,8 +11,12 @@ module.exports = (db) => {
             try{
                 const country = await Country.findByPk(profile.CountryCode);
                 const city = await City.findByPk(profile.CityCode);
-                if(country === null) throw Boom.notFound(`Can not find Country with id ${profile.CountryCode}`);
-                if(city === null) throw Boom.notFound(`Can not find City with id ${profile.CityCode}`);
+                if(profile.CountryCode != null && country === null) {
+                    throw Boom.notFound(`Can not find Country with id ${profile.CountryCode}`);
+                }
+                if(profile.CityCode != null && city === null) {
+                    throw Boom.notFound(`Can not find City with id ${profile.CityCode}`);
+                }
                 passed = true;
             } catch (err) {
                 console.error(err);
