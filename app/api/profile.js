@@ -7,8 +7,15 @@ module.exports = [
     {
         method: 'GET',
         path: '/profile',
-        handler:  (req, res) => {
-            return Profile(req.getDb()).list();
+        handler: async (req, res) => {
+            let result;
+            try {
+                result = await Profile(req.getDb()).list();
+            } catch(err) {
+                console.error(err);
+                throw err;
+            }
+            return result;
         },
         config: {
             auth: false, //'token',
@@ -47,8 +54,15 @@ module.exports = [
     {// CREATE
         method: 'POST',
         path: '/profile',
-        handler:  (req, res) => {
-            return Profile(req.getDb()).create(req.payload);
+        handler: async (req, res) => {
+            let profile;
+            try {
+                profile = await Profile(req.getDb()).create(req.payload);
+            } catch (err) {
+                console.error(err);
+                throw err;
+            }
+            return profile;
         },
         config: {
             auth: false, //'token',
@@ -72,7 +86,14 @@ module.exports = [
         method: 'DELETE',
         path: '/profile/{id}',
         handler: async (req, res) => {            
-            return Company(req.getDb()).delete(req.params.id);
+            let result;
+            try {
+                result = await Profile(req.getDb()).delete(req.params.id);
+            } catch(err) {
+                console.error(err);
+                throw err;
+            }
+            return result;
         },
         config: {
             auth: false, //'token',
@@ -93,7 +114,14 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/profile/{id}',
         handler: async (req, res) => {
-            return Company(req.getDb()).update(req.params.id, req.payload);
+            let result;
+            try{
+                result = await Profile(req.getDb()).update(req.params.id, req.payload);
+            } catch (err) {
+                console.error(err);
+                throw err;
+            }
+            return result;
         },
         config: {
             auth: false, //'token'

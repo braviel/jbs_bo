@@ -8,7 +8,7 @@ module.exports = [
         method: 'GET',
         path: '/country',
         handler: async (req, res) => {            
-            return Country(req.getDb()).list();
+            return await Country(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -21,7 +21,7 @@ module.exports = [
         method: 'GET',
         path: '/country/{id}',
         handler: async (req, res) => {            
-            return Country(req.getDb()).get(req.params.id);
+            return await Country(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -42,7 +42,7 @@ module.exports = [
         method: 'POST',
         path: '/country',
         handler: async (req, res) => {
-            return Country(req.getDb()).create(req.payload);
+            return await Country(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -70,7 +70,7 @@ module.exports = [
         method: 'DELETE',
         path: '/country/{id}',
         handler: async (req, res) => {            
-            return Country(req.getDb()).delete(req.params.id);
+            return await Country(req.getDb()).delete(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -91,7 +91,7 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/country/{id}',
         handler: async (req, res) => {
-            return Country(req.getDb()).update(req.params.id, req.payload);
+            return await Country(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'

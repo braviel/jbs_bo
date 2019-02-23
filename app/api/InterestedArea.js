@@ -7,8 +7,8 @@ module.exports = [
     {
         method: 'GET',
         path: '/interest',
-        handler:  (req, res) => {
-            return InterestedArea(req.getDb()).list();
+        handler: async (req, res) => {
+            return await InterestedArea(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -21,7 +21,7 @@ module.exports = [
         method: 'GET',
         path: '/interest/{id}',
         handler: async (req, res) => {
-            return InterestedArea(req.getDb()).get(req.params.id);;
+            return await InterestedArea(req.getDb()).get(req.params.id);;
         },
         config: {
             auth: false, //'token',
@@ -42,7 +42,7 @@ module.exports = [
         method: 'POST',
         path: '/interest',
         handler: async (req, res) => {
-            return InterestedArea(req.getDb()).create(req.payload);
+            return await InterestedArea(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -68,7 +68,7 @@ module.exports = [
         method: 'DELETE',
         path: '/interest/{id}',
         handler: async (req, res) => {
-            return InterestedArea(req.getDb()).delete(req.params.id);;
+            return await InterestedArea(req.getDb()).delete(req.params.id);;
         },
         config: {
             auth: false, //'token',
@@ -89,7 +89,7 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/interest/{id}',
         handler: async (req, res) => {
-            return InterestedArea(req.getDb()).update(req.params.id, req.payload);
+            return await InterestedArea(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'

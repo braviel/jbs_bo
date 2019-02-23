@@ -25,7 +25,13 @@ module.exports = (db) => {
             return passed;
         },
         list: async function(opt) {
-            const profiles = await Profile.findAll();
+            let profiles
+            try {
+                profiles = await Profile.findAll();
+            } catch (err) {
+                console.error(err);
+                throw err;                
+            }
             return profiles;
         },
         get: async function(id) {

@@ -20,7 +20,7 @@ module.exports = [
         method: 'GET',
         path: '/skill/{id}',
         handler: async (req, res) => {
-            return InterestedSkill(req.getDb()).get(req.params.id);
+            return await InterestedSkill(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -41,7 +41,7 @@ module.exports = [
         method: 'POST',
         path: '/skill',
         handler: async (req, res) => {
-            return InterestedSkill(req.getDb()).create(req.payload);
+            return await InterestedSkill(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -68,7 +68,7 @@ module.exports = [
         method: 'DELETE',
         path: '/skill/{id}',
         handler: async (req, res) => {
-            return InterestedSkill(req.getDb()).delete(req.parms.id);
+            return await InterestedSkill(req.getDb()).delete(req.parms.id);
         },
         config: {
             auth: false, //'token',
@@ -89,7 +89,7 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/skill/{id}',
         handler: async (req, res) => {
-            return InterestedSkill(req.getDb()).update(req.parms.id, req.payload);
+            return await InterestedSkill(req.getDb()).update(req.parms.id, req.payload);
         },
         config: {
             auth: false, //'token'

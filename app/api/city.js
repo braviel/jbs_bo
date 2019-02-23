@@ -7,7 +7,7 @@ module.exports = [
         method: 'GET',
         path: '/city',
         handler: async (req, res) => {
-            return City(req.getDb()).list();
+            return await City(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -20,7 +20,7 @@ module.exports = [
         method: 'GET',
         path: '/city/{id}',
         handler: async (req, res) => {            
-            return City(req.getDb()).get(req.params.id);
+            return await City(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -41,7 +41,7 @@ module.exports = [
         method: 'POST',
         path: '/city',
         handler: async (req, res) => {         
-            return City(req.getDb()).create(req.payload);
+            return await City(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -69,7 +69,7 @@ module.exports = [
         method: 'DELETE',
         path: '/city/{id}',
         handler: async (req, res) => {    
-            return City(req.getDb()).delete(req.params.id);
+            return await City(req.getDb()).delete(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -90,7 +90,7 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/city/{id}',
         handler: async (req, res) => {
-            return City(req.getDb()).update(req.params.id, req.payload);
+            return await City(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'

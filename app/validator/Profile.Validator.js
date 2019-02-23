@@ -25,7 +25,9 @@ module.exports = {
         CityCode: Joi.string(),
         CountryCode: Joi.string()
     }),
-    onUpdateValidator: Joi.object({        
+    onUpdateValidator: Joi.object({
+        ProfileUID: Joi.string().optional(),
+        ProfilePhone: Joi.string().optional(),
         ProfilePhone: Joi.string(),
         ProfileEmail: Joi.string().email(),
         ProfileUEN: Joi.string(),

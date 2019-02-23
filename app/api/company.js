@@ -9,7 +9,7 @@ module.exports = [
         method: 'GET',
         path: '/company',
         handler: async (req, res) => {            
-            return Company(req.getDb()).list();
+            return await Company(req.getDb()).list();
         },
         config: {
             auth: false, //'token',
@@ -22,7 +22,7 @@ module.exports = [
         method: 'GET',
         path: '/company/{id}',
         handler: async (req, res) => {            
-            return Company(req.getDb()).get(req.params.id);
+            return await Company(req.getDb()).get(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -43,7 +43,7 @@ module.exports = [
         method: 'POST',
         path: '/company',
         handler: async (req, res) => {
-            return Company(req.getDb()).create(req.payload);
+            return await Company(req.getDb()).create(req.payload);
         },
         config: {
             auth: false, //'token'
@@ -67,7 +67,7 @@ module.exports = [
         method: 'DELETE',
         path: '/company/{id}',
         handler: async (req, res) => {            
-            return Company(req.getDb()).delete(req.params.id);
+            return await Company(req.getDb()).delete(req.params.id);
         },
         config: {
             auth: false, //'token',
@@ -88,7 +88,7 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/company/{id}',
         handler: async (req, res) => {
-            return Company(req.getDb()).update(req.params.id, req.payload);
+            return await Company(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'

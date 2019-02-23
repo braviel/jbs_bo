@@ -6,7 +6,7 @@ module.exports = (db) => {
     const Country = db.getModel('Country');
     return {
         list: async function (opt) {        
-            return await City.findAll();            
+            return City.findAll();            
         },
         get: async function(id) {            
             const result = await City.findByPk(id);
@@ -40,9 +40,6 @@ module.exports = (db) => {
             if (country === null) throw Boom.notFound(`Can not find Country with code: ${obj.CountryCode}`);
             obj.CityCode = id;
             return await city.update(obj);            
-        },
-        validationObj: {
-            
         }
     }
 }
