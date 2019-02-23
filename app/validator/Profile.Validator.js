@@ -22,8 +22,8 @@ module.exports = {
         DrivingLicenseClass: Joi.string(),
         DrivingLicenseDate: Joi.date().format('DD-MM-YYYY'),
         Religion: Joi.string(),
-        CityCode: Joi.string().required(),
-        CountryCode: Joi.string().required()
+        CityCode: Joi.string(),
+        CountryCode: Joi.string()
     }),
     onUpdateValidator: Joi.object({        
         ProfilePhone: Joi.string(),
