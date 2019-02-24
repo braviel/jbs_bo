@@ -22,6 +22,7 @@
     "bcrypt": "^3.0.4",
     "boom": "^7.3.0",
     "code": "^5.2.4",
+    "del": "^3.0.0",
     "glob": "^7.1.3",
     "glue": "^6.0.0",
     "hapi": "^18.0.0",
@@ -34,9 +35,11 @@
     "joi-date-extensions": "^1.2.0",
     "jsonwebtoken": "^8.4.0",
     "lab": "^18.0.2",
+    "loki": "^0.14.2",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
     "sequelize": "^4.42.0",
+    "uuid": "^3.3.2",
     "vision": "^5.4.4"
   },
   "devDependencies": {

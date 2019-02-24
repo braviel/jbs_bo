@@ -13,8 +13,16 @@ const opts = {
 const swaggerOptions = {
     info: {
             title: 'JBS API Documentation',
-            version: '0.0.1',
+            version: '0.0.1',            
         },
+    // securityDefinitions: {
+    //     'token': {
+    //         'type': 'apiKey',
+    //         'name': 'Authorization',
+    //         'in': 'header'
+    //     }
+    // },
+    // security: [{ 'token': [] }],
 };
 module.exports = {
     server: {
@@ -29,7 +37,7 @@ module.exports = {
                     logEvents: ['response', 'onPostStart']
                 }            
             },
-            {
+            {   
                 plugin: 'hapi-sequelizejs',
                 options: {
                     name: process.env.DBName || 'jbs',
@@ -47,11 +55,11 @@ module.exports = {
                 plugin: 'vision'
             },
             {
-                plugin: 'hapi-swagger'
+                plugin: 'hapi-swagger',
+                options: swaggerOptions
             },
             {
-                plugin: './plugins/jwt-wrapper',
-                options: swaggerOptions
+                plugin: './plugins/jwt-wrapper',                
             },    
             {
                 plugin: './app/router'

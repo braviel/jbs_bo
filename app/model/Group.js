@@ -19,7 +19,10 @@ module.exports = function(sequelize, DataTypes) {
                 isEmail: true
             }
         },
-        GroupLogo: DataTypes.BLOB('long'),        
+        GroupLogo: DataTypes.BLOB('long'),
+        GroupLogoURL: {
+            type: DataTypes.STRING,
+        },
         BuildingName: DataTypes.TEXT('tiny'),
         Address1: DataTypes.STRING,        
         Address2: DataTypes.STRING,

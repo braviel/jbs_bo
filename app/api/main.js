@@ -1,17 +1,25 @@
 'use strict';
-const db = require('hapi-sequelizejs').instances.getDb
-
+const db = require('hapi-sequelizejs').instances.getDb;
+const Joi = require('joi');
 // const register = function (server, serverOptions) {
 //     server.route(
 module.exports = [
     {
         method: 'GET',
         path: '/api',
-        options: {
+        config: {
             tags: ['api','main'],
             description: 'Test if API is accessible. [No Scope]',
             notes: 'Test if API is accessible.',
-            auth: false
+            auth: 'token',
+            validate: {
+                headers: {
+                    Authorization: Joi.string()
+                },
+                query: {
+                    token: Joi.string()
+                }
+            }
         },
         handler: function (request, h) {
             return {

@@ -21,7 +21,6 @@ const start = async () => {
     
 }
 
-
 process.on('unhandledRejection', (err) => {
     console.log('DEVLOG: ' + err);
     process.exit(1);
