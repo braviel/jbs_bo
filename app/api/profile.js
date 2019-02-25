@@ -158,7 +158,7 @@ module.exports = [
                 const basepath = './upload/'+uuid.v1()
                 const filename = basepath+'.'+fileData.hapi.filename.split('.').pop();                
                 await fileUtils.streamFile(fileData, filename); 
-                result = await Profile(req.getDb()).setPhoto(req.payload.ProfileUID, basepath);                
+                result = await Profile(req.getDb()).setPhoto(req.payload.ProfileUID, filename);                
             } catch(err) {
                 console.log(err);
                 throw err;
