@@ -1,14 +1,15 @@
 'use strict';
 const Glue = require('glue');
 const manifest = require('./manifest');
-
+const fs = require('fs')
 const options = {
     relativeTo: __dirname
 };
-
+const UPLOAD_PATH = './upload'
 // const JwtValidator = require('./app/validator/jwtvalidator')
 // const jwt = JWT.sign({id:1}, 'apisecret');
 // console.log(`Token: ${jwt}`);
+if (!fs.existsSync(UPLOAD_PATH)) fs.mkdirSync(UPLOAD_PATH);
 const start = async () => {
     try {
     const server = await Glue.compose(manifest, options);

@@ -1,6 +1,7 @@
 'use strict';
 const db = require('hapi-sequelizejs').instances.getDb;
 const Joi = require('joi');
+const Inert = require('inert');
 // const register = function (server, serverOptions) {
 //     server.route(
 module.exports = [
@@ -46,6 +47,17 @@ module.exports = [
                 });
             });
             return 'tested';
+        }
+    },    
+    {
+        method: 'GET',
+        path: '/pub/{param*}',
+        handler: {
+            directory: {
+                path: '.',
+                redirectToSlash: true,
+                index: false,
+            }
         }
     }
 ]

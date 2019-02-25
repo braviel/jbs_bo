@@ -1,8 +1,11 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
+const uuid = require('uuid');
 const Profile = require('../controller/Profile');
 const ProfileValidator = require('../validator/Profile.Validator');
+const fileUtils = require('../utils/file');
+const fs = require('fs');
 module.exports = [
     {
         method: 'GET',
@@ -144,6 +147,73 @@ module.exports = [
             }
         }
     },// UPDATE
+    {// UPLOAD Photo
+        method: 'POST',
+        path: '/profile/{id}/avatar',
+        handler: async (req, res) => {
+            let result
+            try{                
+                const data = req.payload;
+                const fileData = data.ProfilePhoto;
+                const filename = './upload/'+uuid.v1()+'.'+fileData.hapi.filename.split('.').pop();                
+                await fileUtils.streamFile(fileData, filename); 
+                result = await Profile(req.getDb()).setPhoto(req.payload.ProfileUID, filename);                
+            } catch(err) {
+                console.log(err);
+                throw err;
+            }
+            return result;
+        },
+        config: {
+            auth: false, //'token',            
+            tags: ['api','profile'],
+            description: 'create Profile Avatar',
+            notes: 'More implemetation note come here',         
+            payload: {
+                output: 'stream',
+                parse: true,
+                allow: 'multipart/form-data'
+            },
+            validate: {
+                payload: ({
+                    ProfileUID: Joi.string().required(),
+                    ProfilePhoto: Joi.any().meta({ swaggerType: 'file' })
+                })
+            },
+            plugins: {
+                'hapi-swagger': {
+                    payloadType: 'form'
+                }
+            },
+        }
+    },// Upload Photo
+    {// GET Photo
+        method: 'GET',
+        path: '/profile/{id}/avatar',
+        handler: async (req, h) => {
+            let result;
+            try {
+                result = await Profile(req.getDb()).get(req.params.id);                
+            } catch(err) {
+                throw err;
+            }
+            return h.file(result.ProfileImageURL);
+        },
+        config: {
+            auth: false, //'token',
+            tags: ['api','profile'],
+            description: 'Get Profile avatar by id',
+            notes: 'More implemetation note come here',
+            validate: {
+                params: {
+                    id: Joi.string().required()
+                },
+                failAction: async (request, h, err) => {
+                    throw Boom.badData(err);
+                }
+            }
+        }
+    },// GET Photo
 ]
 //     );
 // }

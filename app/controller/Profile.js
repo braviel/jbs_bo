@@ -84,5 +84,18 @@ module.exports = (db) => {
             }
             return result;
         },
+        setPhoto: async function(id, filename) {
+            let result
+            try{
+                const profile = await Profile.findByPk(id);
+                if(profile == null) throw Boom.notFound();                
+                profile.ProfileImageURL = filename;
+                result = await profile.save()
+            } catch(err) {
+                console.error(err)
+                throw err;
+            }
+            return result
+        }
     }
 }

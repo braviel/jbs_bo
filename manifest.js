@@ -1,6 +1,7 @@
 "use strict";
 const config = require('./config');
 const Sequelize = require('sequelize');
+const Path = require('path')
 
 //database wide options
 const opts = {
@@ -49,7 +50,7 @@ module.exports = {
                 }
             },
             {
-                plugin: 'inert'
+                plugin: 'inert',                
             },
             {
                 plugin: 'vision'

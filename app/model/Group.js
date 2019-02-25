@@ -26,9 +26,7 @@ module.exports = function(sequelize, DataTypes) {
         BuildingName: DataTypes.TEXT('tiny'),
         Address1: DataTypes.STRING,        
         Address2: DataTypes.STRING,
-        PostalCode: DataTypes.STRING(45),
-        Location1: DataTypes.STRING,
-        Location2: DataTypes.STRING
+        PostalCode: DataTypes.STRING(45)
     }, {
         timestamps: true
     });
