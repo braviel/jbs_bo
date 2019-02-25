@@ -172,7 +172,8 @@ module.exports = [
             payload: {
                 output: 'stream',
                 parse: true,
-                allow: 'multipart/form-data'
+                allow: 'multipart/form-data',
+                maxBytes: 10971520,
             },
             validate: {
                 payload: ({
