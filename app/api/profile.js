@@ -200,6 +200,7 @@ module.exports = [
             } catch(err) {
                 throw err;
             }
+            console.error(`@@ Server File : ${process.env.UPLOAD_PATH + result.ProfileImageURL}`);
             return h.file(process.env.UPLOAD_PATH + result.ProfileImageURL);
         },
         config: {
