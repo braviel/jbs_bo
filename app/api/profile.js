@@ -158,7 +158,7 @@ module.exports = [
                 const filename = uuid.v1()
                 const fileExtension = fileData.hapi.filename.split('.').pop();
                 const filefullPath = process.env.UPLOAD_PATH + filename + '.' + fileExtension;
-                await fileUtils.streamFile(fileData, filefullPath); 
+                await fileUtils.writeStreamFile(fileData, filefullPath); 
                 result = await Profile(req.getDb()).setPhoto(req.payload.ProfileUID, filename + '.' + fileExtension);                
             } catch(err) {
                 console.log(err);
@@ -196,22 +196,50 @@ module.exports = [
         handler: async (req, h) => {
             let result;
             try {
-                result = await Profile(req.getDb()).get(req.params.id);                
+                await Profile(req.getDb()).get(req.params.id);
+                const filePath = process.env.UPLOAD_PATH + result.ProfileImageURL;
+                console.error(`@@ Server File : ${filePath}`);            
+                const stats = fs.statSync(filePath)
+                const fileSizeInBytes = stats.size;
+                result = h.file(filePath);
             } catch(err) {
                 throw err;
             }
-            console.error(`@@ Server File : ${process.env.UPLOAD_PATH + result.ProfileImageURL}`);
-            return h.file(process.env.UPLOAD_PATH + result.ProfileImageURL);
+            return result;
+            // h.type('application/octet-stream')
+            // .header('Content-type', 'application/png')
+            // .header('Content-length', fileSizeInBytes);
+            // return await fileUtils.readStreamFile(filePath, h); 
+            // const fread = fs.createReadStream(filePath);
+            // fread.on('error', (err) => {
+            //     console.error(err)
+            //     throw err;
+            // });
+            // fread.on('data', (data) => {
+            //     console.log(data);
+            //     h.response(data);
+            // });
+            // fread.on('end', () => {
+            //     console.log('[end]')
+            //     return h;
+            // });
+            // h.on('end', () => {})
+            // return h(fread.pipe())
+            //     .type('application/octet-stream')
+            //     .header('Content-type', 'application/png')
+            //     .header('Content-length', fileSizeInBytes);
+
+            // return h.file(process.env.UPLOAD_PATH + result.ProfileImageURL);
         },
         config: {
             auth: false, //'token',
             tags: ['api','profile'],
             description: 'Get Profile avatar by id',
-            notes: 'More implemetation note come here',
+            notes: 'More implemetation note come here',            
             validate: {
                 params: {
                     id: Joi.string().required()
-                },
+                },                
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);
                 }

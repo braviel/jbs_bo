@@ -10,7 +10,7 @@ module.exports = {
             })
         })
     },
-    streamFile: function(fileData, filename) {
+    writeStreamFile: function(fileData, filename) {
         return new Promise((resolve, reject) => {
             const fileS = fs.createWriteStream(filename);
             fileS.on('error', (err) => {
@@ -26,6 +26,23 @@ module.exports = {
                 }
                 resolve(JSON.stringify(ret));
             })
+        })
+    },
+    readStreamFile: function(filePath, h) {
+        return new Promise((resolve, reject) => {
+            const fread = fs.createReadStream(filePath);
+            fread.on('error', (err) => {
+                console.error(err)
+                reject(err);
+            });
+            fread.on('data', (data) => {
+                console.log(data);
+                h.response(data);
+            });
+            fread.on('end', () => {
+                console.log('[end]')
+                resolve(h);
+            });
         })
     }
 }
