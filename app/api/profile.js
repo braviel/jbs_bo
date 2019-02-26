@@ -196,8 +196,8 @@ module.exports = [
         handler: async (req, h) => {
             let result;
             try {
-                await Profile(req.getDb()).get(req.params.id);
-                const filePath = process.env.UPLOAD_PATH + result.ProfileImageURL;
+                const profile = await Profile(req.getDb()).get(req.params.id);
+                const filePath = process.env.UPLOAD_PATH + profile.ProfileImageURL;
                 console.error(`@@ Server File : ${filePath}`);            
                 const stats = fs.statSync(filePath)
                 const fileSizeInBytes = stats.size;
