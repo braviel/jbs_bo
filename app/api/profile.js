@@ -154,11 +154,12 @@ module.exports = [
             let result
             try{                
                 const data = req.payload;
-                const fileData = data.ProfilePhoto;
-                const basepath = './upload/'+uuid.v1()
-                const filename = basepath+'.'+fileData.hapi.filename.split('.').pop();                
-                await fileUtils.streamFile(fileData, filename); 
-                result = await Profile(req.getDb()).setPhoto(req.payload.ProfileUID, filename);                
+                const fileData = data.ProfilePhoto;                
+                const filename = uuid.v1()
+                const fileExtension = fileData.hapi.filename.split('.').pop();
+                const filefullPath = process.env.UPLOAD_PATH + filename + '.' + fileExtension;
+                await fileUtils.streamFile(fileData, filefullPath); 
+                result = await Profile(req.getDb()).setPhoto(req.payload.ProfileUID, filename + '.' + fileExtension);                
             } catch(err) {
                 console.log(err);
                 throw err;
@@ -199,7 +200,7 @@ module.exports = [
             } catch(err) {
                 throw err;
             }
-            return h.file(result.ProfileImageURL);
+            return h.file(process.env.UPLOAD_PATH + result.ProfileImageURL);
         },
         config: {
             auth: false, //'token',

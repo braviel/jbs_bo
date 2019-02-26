@@ -5,6 +5,8 @@ const fs = require('fs')
 const options = {
     relativeTo: __dirname
 };
+process.env.PWD = process.cwd();
+process.env.UPLOAD_PATH = process.env.PWD + '/upload/' 
 const UPLOAD_PATH = './upload'
 // const JwtValidator = require('./app/validator/jwtvalidator')
 // const jwt = JWT.sign({id:1}, 'apisecret');
