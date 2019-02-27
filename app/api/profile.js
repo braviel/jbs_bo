@@ -1,10 +1,8 @@
 'use strict';
 const Boom = require('boom');
 const Joi = require('joi');
-const uuid = require('uuid');
 const Profile = require('../controller/Profile');
 const ProfileValidator = require('../validator/Profile.Validator');
-const fileUtils = require('../utils/file');
 const fs = require('fs');
 module.exports = [
     {
@@ -128,7 +126,7 @@ module.exports = [
         },
         config: {
             auth: false, //'token'
-            tags: ['api','company'],
+            tags: ['api','profile'],
             description: 'Update profile',
             notes: 'More implemetation note come here',
             plugins: {
@@ -154,12 +152,8 @@ module.exports = [
             let result
             try{                
                 const data = req.payload;
-                const fileData = data.ProfilePhoto;                
-                const filename = uuid.v1()
-                const fileExtension = fileData.hapi.filename.split('.').pop();
-                const filefullPath = process.env.UPLOAD_PATH + filename + '.' + fileExtension;
-                await fileUtils.writeStreamFile(fileData, filefullPath); 
-                result = await Profile(req.getDb()).setPhoto(req.payload.ProfileUID, filename + '.' + fileExtension);                
+                const fileData = data.ProfilePhoto;
+                result = await Profile(req.getDb()).updatePhoto(req.payload.ProfileUID, fileData);
             } catch(err) {
                 console.log(err);
                 throw err;
@@ -206,30 +200,6 @@ module.exports = [
                 throw err;
             }
             return result;
-            // h.type('application/octet-stream')
-            // .header('Content-type', 'application/png')
-            // .header('Content-length', fileSizeInBytes);
-            // return await fileUtils.readStreamFile(filePath, h); 
-            // const fread = fs.createReadStream(filePath);
-            // fread.on('error', (err) => {
-            //     console.error(err)
-            //     throw err;
-            // });
-            // fread.on('data', (data) => {
-            //     console.log(data);
-            //     h.response(data);
-            // });
-            // fread.on('end', () => {
-            //     console.log('[end]')
-            //     return h;
-            // });
-            // h.on('end', () => {})
-            // return h(fread.pipe())
-            //     .type('application/octet-stream')
-            //     .header('Content-type', 'application/png')
-            //     .header('Content-length', fileSizeInBytes);
-
-            // return h.file(process.env.UPLOAD_PATH + result.ProfileImageURL);
         },
         config: {
             auth: false, //'token',

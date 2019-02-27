@@ -1,6 +1,8 @@
 'use strict';
 const Boom = require('boom');
-
+const del = require('del');
+const uuid = require('uuid');
+const fileUtils = require('../utils/file');
 module.exports = (db) => {
     const Profile = db.getModel('Profile');    
     return {
@@ -84,12 +86,22 @@ module.exports = (db) => {
             }
             return result;
         },
-        setPhoto: async function(id, filename) {
-            let result
-            try{
+        updatePhoto: async function(id, fileData) {
+            let result;
+            try{                
                 const profile = await Profile.findByPk(id);
-                if(profile == null) throw Boom.notFound();                
-                profile.ProfileImageURL = filename;
+                if(profile == null) throw Boom.notFound();
+                let fileNameWithExt = profile.ProfileImageURL;
+                if(fileNameWithExt == null || fileNameWithExt == "") {
+                    const filename = uuid.v1();
+                    const fileExtension = fileData.hapi.filename.split('.').pop();
+                    fileNameWithExt = filename + '.' + fileExtension;                    
+                } else {
+                    await del([process.env.UPLOAD_PATH + fileNameWithExt]);
+                }
+                const filefullPath = process.env.UPLOAD_PATH + fileNameWithExt;
+                await fileUtils.writeStreamFile(fileData, filefullPath);
+                profile.ProfileImageURL = fileNameWithExt;
                 result = await profile.save()
             } catch(err) {
                 console.error(err)
