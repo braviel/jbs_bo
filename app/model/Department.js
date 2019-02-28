@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
         DepartmentUID: {
             type: DataTypes.UUID,
             primaryKey: true,
-            default: DataTypes.UUIDV4
+            defaultValue: DataTypes.UUIDV4
         },
         DepartmentName: DataTypes.STRING(255),
         DepartmentPhone: DataTypes.STRING(50),

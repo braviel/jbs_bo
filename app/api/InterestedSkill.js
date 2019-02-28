@@ -89,7 +89,14 @@ module.exports = [
         method: ['PUT', 'PATCH'],
         path: '/skill/{id}',
         handler: async (req, res) => {
-            return await InterestedSkill(req.getDb()).update(req.parms.id, req.payload);
+            let result;
+            try {
+                result = await InterestedSkill(req.getDb()).update(req.params.id, req.payload);
+            } catch(err) {
+                console.error(err);
+                throw err;
+            }
+            return result;
         },
         config: {
             auth: false, //'token'

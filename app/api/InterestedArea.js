@@ -6,7 +6,7 @@ const InterestedArea = require('../controller/InterestedArea');
 module.exports = [
     {
         method: 'GET',
-        path: '/interest',
+        path: '/interestedarea',
         handler: async (req, res) => {
             return await InterestedArea(req.getDb()).list();
         },
@@ -19,14 +19,14 @@ module.exports = [
     },// LIST
     {//GET
         method: 'GET',
-        path: '/interest/{id}',
+        path: '/interestedarea/{id}',
         handler: async (req, res) => {
             return await InterestedArea(req.getDb()).get(req.params.id);;
         },
         config: {
             auth: false, //'token',
-            tags: ['api','AreaInterest'],
-            description: 'Get AreaInterest by Id',
+            tags: ['api','InterestedArea'],
+            description: 'Get InterestedArea by Id',
             notes: 'More implemetation note come here',
             validate: {
                 params: {
@@ -40,7 +40,7 @@ module.exports = [
     },//GET
     {//CREATE
         method: 'POST',
-        path: '/interest',
+        path: '/interestedarea',
         handler: async (req, res) => {
             return await InterestedArea(req.getDb()).create(req.payload);
         },
@@ -66,13 +66,13 @@ module.exports = [
     },// CREATE
     {//DELETE
         method: 'DELETE',
-        path: '/interest/{id}',
+        path: '/interestedarea/{id}',
         handler: async (req, res) => {
             return await InterestedArea(req.getDb()).delete(req.params.id);;
         },
         config: {
             auth: false, //'token',
-            tags: ['api','AreaInterest'],
+            tags: ['api','InterestedArea'],
             description: 'Delete interest by Id',
             notes: 'More implemetation note come here',
             validate: {
@@ -87,13 +87,13 @@ module.exports = [
     },//DELETE
     {//UPDATE
         method: ['PUT', 'PATCH'],
-        path: '/interest/{id}',
+        path: '/interestedarea/{id}',
         handler: async (req, res) => {
             return await InterestedArea(req.getDb()).update(req.params.id, req.payload);
         },
         config: {
             auth: false, //'token'
-            tags: ['api','AreaInterest'],
+            tags: ['api','InterestedArea'],
             description: 'Update Interest',
             notes: 'More implemetation note come here',
             plugins: {
@@ -114,4 +114,32 @@ module.exports = [
             }
         }
     },// UPDATE
+    {
+        method: 'GET',
+        path: '/interestedarea/{id}/skills',
+        handler: async (req, res) => {
+            let result;
+            try {
+                result = await InterestedArea(req.getDb()).listSKillByAreaId(req.params.id);
+            } catch(err) {
+                console.error(err);
+                throw err;
+            }
+            return result;
+        },
+        config: {
+            auth: false, //'token',
+            tags: ['api','AreaInterest'],
+            description: 'List All Interest',
+            notes: 'More implemetation note come here',
+            validate: {
+                params: {
+                    id: Joi.number()
+                },
+                failAction: async (request, h, err) => {
+                    throw Boom.badData(err);
+                }
+            }
+        }
+    },// LIST
 ]

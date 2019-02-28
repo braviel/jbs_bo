@@ -1,6 +1,6 @@
 'use strict';
 const Boom = require('boom');
-
+const Sequelize = require('sequelize');
 module.exports = (db) => {
     const InterestedArea = db.getModel('InterestedArea');
     return {
@@ -49,6 +49,28 @@ module.exports = (db) => {
             } catch (err) {
                 console.error(err);
                 throw Boom.badImplementation(err.message, err);
+            }
+            return result;
+        },
+        listSKillByAreaId: async function (areaId) {
+            const InterestedSkill = db.getModel('InterestedSkill');
+            let result;
+            try {
+                result = await InterestedArea.find({
+                    attributes: [
+                        Sequelize.col('InterestedSkills.*')
+                    ],
+                    where: {
+                        AreaCode: areaId
+                    },
+                    include:[{
+                        model: InterestedSkill
+                    }]
+                });
+                // if (interestedArea === null) throw Boom.notFound();
+            } catch (err) {
+                console.error(err);
+                throw err;
             }
             return result;
         }

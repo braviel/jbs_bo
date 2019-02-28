@@ -5,7 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     const Group = sequelize.define('Group', {
         GroupUID: {
             type: DataTypes.UUID,
-            default: DataTypes.UUIDV4,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
         GroupName: {
