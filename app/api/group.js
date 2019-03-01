@@ -27,7 +27,7 @@ module.exports = [
     },// LIST
     {
         method: 'GET',
-        path: '/group/member/{profileUID}',
+        path: '/group/listByMemberId/{profileUID}',
         handler: async (req, res) => {
             let result;
             try {
