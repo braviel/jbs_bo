@@ -63,20 +63,15 @@ module.exports = (db) => {
                             ProfileUID: profileUID
                         }
                     }]
-                });
-                // groups = await GroupMember.findAll({
-                //     where: {
-                //         ProfileUID: profileUID
-                //     },
-                //     include: [{
-                //         model: Group                        
-                //     }]
-                // });
+                });                
             } catch (err) {
                 console.error(err);
                 throw err;
             }
             return groups;
+        },
+        join: async function(profileUID) {
+
         },
         get: async function(id) {
             let group;
@@ -99,7 +94,8 @@ module.exports = (db) => {
             try {
                 group = await Group.create(obj);
                 const groupMember = await GroupMember.create({
-                        GroupAdmin: 'Y',
+                        Accepted: 1,
+                        GroupAdmin: 'Y',                        
                         ProfileUID: profile.ProfileUID,
                         GroupUID: group.GroupUID
                     });

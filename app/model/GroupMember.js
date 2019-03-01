@@ -8,6 +8,10 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true
         },
+        Accepted: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
         GroupAdmin: {
             type: DataTypes.ENUM,
             values: ['Y', 'N'],
