@@ -13,9 +13,8 @@ module.exports = function(sequelize, DataTypes) {
     }); 
     GroupMember.associate = function(models) {
         console.log(`Associate ${__filename}`);        
-        // models.GroupMember.belongsTo(models.Group, {foreignKey: 'GroupUID', onDelete: 'RESTRICT'});
-        // models.Group.hasMany(models.GroupMember, {foreignKey: 'GroupUID', onDelete: 'RESTRICT'});
-        // models.GroupMember.belongsTo(models.Profile, {foreignKey: 'ProfileUID', onDelete: 'RESTRICT'});
+        models.GroupMember.belongsTo(models.Group, {foreignKey: 'GroupUID', onDelete: 'RESTRICT'});        
+        models.GroupMember.belongsTo(models.Profile, {foreignKey: 'ProfileUID', onDelete: 'RESTRICT'});
         models.Profile.belongsToMany(models.Group, {
             through: models.GroupMember, 
             foreignKey: 'ProfileUID',

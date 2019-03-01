@@ -48,7 +48,33 @@ module.exports = (db) => {
                 groups = await Group.findAll();
             } catch (err) {
                 console.error(err);
-                throw err;                
+                throw err;
+            }
+            return groups;
+        },
+        listByMemberId: async function(profileUID) {
+            const GroupMember = db.getModel('GroupMember');
+            let groups
+            try {
+                groups = await Group.findAll({
+                    include: [{
+                        model: GroupMember,
+                        where: {
+                            ProfileUID: profileUID
+                        }
+                    }]
+                });
+                // groups = await GroupMember.findAll({
+                //     where: {
+                //         ProfileUID: profileUID
+                //     },
+                //     include: [{
+                //         model: Group                        
+                //     }]
+                // });
+            } catch (err) {
+                console.error(err);
+                throw err;
             }
             return groups;
         },
@@ -63,16 +89,25 @@ module.exports = (db) => {
             }
             return group.get();
         },
-        create: async function (obj) {
-            let created;
+        create: async function (obj, profileUID) {
+            let group;
+            const Profile = db.getModel('Profile');
+            const profile = await Profile.findByPk(profileUID);
+            if(profile === null) throw Boom.notFound(`Can not find Prodile with ID: ` + profileUID);
             await this.validate(obj);
+            const GroupMember = db.getModel('GroupMember');            
             try {
-                created = await Group.create(obj);
+                group = await Group.create(obj);
+                const groupMember = await GroupMember.create({
+                        GroupAdmin: 'Y',
+                        ProfileUID: profile.ProfileUID,
+                        GroupUID: group.GroupUID
+                    });
             } catch(err) {
                 console.error(err);
                 throw Boom.badImplementation(err.message, err);
             }
-            return created;
+            return group;
         },
         delete: async function (id) {
             let result;

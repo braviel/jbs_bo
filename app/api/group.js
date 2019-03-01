@@ -25,6 +25,31 @@ module.exports = [
             notes: 'More implemetation note come here',
         }
     },// LIST
+    {
+        method: 'GET',
+        path: '/group/member/{profileUID}',
+        handler: async (req, res) => {
+            let result;
+            try {
+                result = await Group(req.getDb()).listByMemberId(req.params.profileUID);
+            } catch(err) {
+                console.error(err);
+                throw err;
+            }
+            return result;
+        },
+        config: {
+            auth: false, //'token',
+            tags: ['api','group'],
+            description: 'List all Group',
+            notes: 'More implemetation note come here',
+            validate: {
+                params: {
+                    profileUID: Joi.string()
+                }
+            }
+        }
+    },// LIST
     {// GET
         method: 'GET',
         path: '/group/{id}',
@@ -54,11 +79,11 @@ module.exports = [
     },// GET
     {// CREATE
         method: 'POST',
-        path: '/group',
+        path: '/group/{creatorID}',
         handler: async (req, res) => {
             let group;
             try {
-                group = await Group(req.getDb()).create(req.payload);
+                group = await Group(req.getDb()).create(req.payload, req.params.creatorID);
             } catch (err) {
                 console.error(err);
                 throw err;
@@ -76,6 +101,9 @@ module.exports = [
                 }
             },
             validate: {
+                params: {
+                    creatorID: Joi.string()
+                },
                 payload: GroupValidator.onCreateValidator,
                 failAction: async (request, h, err) => {
                     throw Boom.badData(err);

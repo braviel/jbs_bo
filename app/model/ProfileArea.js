@@ -7,8 +7,16 @@ module.exports = function(sequelize, DataTypes) {
         timestamps: true
     });    
     ProfileArea.associate = function(models) {
-        models.Profile.belongsToMany(models.InterestedArea, {through: 'ProfileArea', onDelete: 'RESTRICT'});
-        models.InterestedArea.belongsToMany(models.Profile, {through: 'ProfileArea', onDelete: 'RESTRICT'});
+        models.ProfileArea.belongsTo(models.InterestedArea, {foreignKey: 'AreaCode', onDelete: 'RESTRICT'});
+        models.ProfileArea.belongsTo(models.Profile, {foreignKey: 'ProfileUID', onDelete: 'RESTRICT'});
+        models.Profile.belongsToMany(models.InterestedArea, {
+            through: models.ProfileArea, 
+            foreignKey: 'AreaCode',
+            onDelete: 'RESTRICT'});
+        models.InterestedArea.belongsToMany(models.Profile, {
+            through: models.ProfileArea, 
+            foreignKey: 'ProfileUID',
+            onDelete: 'RESTRICT'});
     }
     return ProfileArea;
 }

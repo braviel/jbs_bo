@@ -7,8 +7,16 @@ module.exports = function(sequelize, DataTypes) {
         timestamps: true
     });    
     ProfileSkill.associate = function(models) {
-        models.Profile.belongsToMany(models.InterestedSkill, {through: models.ProfileSkill, onDelete: 'RESTRICT'});
-        models.InterestedSkill.belongsToMany(models.Profile, {through: models.ProfileSkill, onDelete: 'RESTRICT'});
+        models.ProfileSkill.belongsTo(models.InterestedSkill, {foreignKey: 'SkillCode', onDelete: 'RESTRICT'});
+        models.ProfileSkill.belongsTo(models.Profile, {foreignKey: 'ProfileUID', onDelete: 'RESTRICT'});
+        models.Profile.belongsToMany(models.InterestedSkill, {
+            through: models.ProfileSkill,
+            foreignKey: 'SkillCode',
+            onDelete: 'RESTRICT'});
+        models.InterestedSkill.belongsToMany(models.Profile, {
+            through: models.ProfileSkill, 
+            foreignKey: 'ProfileUID',
+            onDelete: 'RESTRICT'});
     }
     return ProfileSkill;
 }

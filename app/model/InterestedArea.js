@@ -12,5 +12,8 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         timestamps: false
     });
+    InterestedArea.associate = function(models)  {
+        console.log(`@@@ Associate ${__filename}`);                
+    }
     return InterestedArea;
 }

@@ -32,6 +32,7 @@ module.exports = function(sequelize, DataTypes) {
     });
     Group.associate = function(models) {
         console.log(`Associate ${__filename}`);
+        models.Group.hasMany(models.GroupMember, {foreignKey: 'GroupUID', onDelete: 'RESTRICT'});
         models.Group.belongsTo(models.Country, {foreignKey: 'CountryCode', onDelete: 'RESTRICT'});
         models.Group.belongsTo(models.City, {foreignKey: 'CityCode', onDelete: 'RESTRICT'});
         models.Group.belongsTo(models.Company, {foreignKey: 'CompanyUID', onDelete: 'RESTRICT'});
