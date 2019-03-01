@@ -32,7 +32,7 @@ module.exports = {
         PostalCode: Joi.string(),
         CountryCode: Joi.string(),
         CityCode: Joi.string(),
-        CompanyUID: Joi.string(),
-        DepartmentUID: Joi.string(),
+        CompanyUID: Joi.string().optional(),
+        DepartmentUID: Joi.string().optional(),
     })
 }

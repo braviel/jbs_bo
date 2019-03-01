@@ -147,7 +147,7 @@ module.exports = [
             try{
                 result = await Group(req.getDb()).update(req.params.id, req.payload);
             } catch (err) {
-                console.error(err);
+                console.error(err.message);
                 throw err;
             }
             return result;
