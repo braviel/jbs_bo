@@ -52,7 +52,35 @@ module.exports = [
                 }
             }
         }
-    },// GET
+    },
+    {// GET
+        method: 'GET',
+        path: '/profile/{id}/interestedSkill',
+        handler: async (req, res) => {
+            let result;
+            try {
+                result = await ProfileInterest(req.getDb()).listInterestedSkill(req.params.id);
+            } catch(err) {
+                throw err;
+            }
+            return result
+        },
+        config: {
+            auth: false, //'token',
+            tags: ['api','profile'],
+            description: 'Get Profile interested area by profileUID',
+            notes: 'More implemetation note come here',
+            validate: {
+                params: {
+                    id: Joi.string().required()
+                },
+                failAction: async (request, h, err) => {
+                    throw Boom.badData(err);
+                }
+            }
+        }
+    }
+    // GET
     // {// CREATE
     //     method: 'POST',
     //     path: '/profile',

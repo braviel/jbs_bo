@@ -36,6 +36,24 @@ module.exports = (db) => {
             }
             return areas;
         },
+        listInterestedSkill: async function(profileUID) {
+            const ProfileSkill = db.getModel('ProfileSkill');
+            let skills;
+            try {
+                skills = await ProfileSkill.findAll({
+                    where: {
+                        ProfileUID: profileUID
+                    },
+                    include: [{
+                        model: InterestedSkill
+                    }]
+                });    
+            } catch (err) {
+                console.error(err);
+                throw err;
+            }
+            return skills;
+        },
         get: async function(id) {
             let profile;
             try{
