@@ -20,7 +20,7 @@ module.exports = {
         DepartmentUID: Joi.string(),
     }),
     onUpdateValidator: Joi.object({
-        GroupUID: Joi.string().required(),
+        // GroupUID: Joi.string().required(),
         GroupName: Joi.string(),
         GroupPhone: Joi.string(),
         GroupEmail: Joi.string().email(),
