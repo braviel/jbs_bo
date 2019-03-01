@@ -2,7 +2,12 @@
 
 module.exports = function(sequelize, DataTypes) {
     console.log(`Define ${__filename}`);
-    const GroupMember = sequelize.define('GroupMember', {        
+    const GroupMember = sequelize.define('GroupMember', {
+        Id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         GroupAdmin: {
             type: DataTypes.ENUM,
             values: ['Y', 'N'],
