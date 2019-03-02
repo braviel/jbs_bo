@@ -247,7 +247,7 @@ module.exports = [
     },// GET Photo
     {// INVITE
         method: ['POST'],
-        path: '/group/{groupUID}/invite/{profileUID}/isAdmin/{isAmin}',
+        path: '/group/{groupUID}/invite/{profileUID}/isAdmin/{isAdmin}',
         handler: async (req, res) => {
             let result;
             try{
