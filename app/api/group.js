@@ -167,7 +167,8 @@ module.exports = [
                     id: Joi.string()
                 },
                 payload: GroupValidator.onUpdateValidator,
-                failAction: async (request, h, err) => {                    
+                failAction: async (request, h, err) => {
+                    console.err(err.message);
                     throw Boom.badData(err.message);
                 }
             }

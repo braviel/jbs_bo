@@ -40,6 +40,7 @@ module.exports = (db) => {
                 console.error(err);
                 throw Boom.badImplementation(err.message);
             }
+            console.log("Controller Validation Passed");
             return passed;
         },
         list: async function(opt) {
@@ -128,7 +129,7 @@ module.exports = (db) => {
                 await this.validate(obj);            
                 result = await group.update(obj);
             } catch (err) {
-                console.log(err);
+                console.log(err.message);
                 throw err;
             }
             return result;
