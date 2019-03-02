@@ -274,7 +274,7 @@ module.exports = [
                 params: {
                     groupUID: Joi.string().required(),
                     profileUID: Joi.string().required(),
-                    isAdmin: Joi.string().required()
+                    isAdmin: Joi.string()
                 },                
                 failAction: async (request, h, err) => {
                     console.error('validation message : ' + err.message);
