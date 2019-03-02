@@ -155,7 +155,7 @@ module.exports = [
         config: {
             auth: false, //'token'
             tags: ['api','group'],
-            description: 'Update profile',
+            description: 'Update group',
             notes: 'More implemetation note come here',
             plugins: {
                 'hapi-swagger': {
@@ -168,7 +168,7 @@ module.exports = [
                 },
                 payload: GroupValidator.onUpdateValidator,
                 failAction: async (request, h, err) => {
-                    console.err(err.message);
+                    console.error(err.message);
                     throw Boom.badData(err.message);
                 }
             }
