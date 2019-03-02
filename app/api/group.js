@@ -252,7 +252,7 @@ module.exports = [
             let result;
             try{
                 result = await Group(req.getDb()).invite(req.params.groupUID, 
-                            req.params.groupUID,
+                            req.params.profileUID,
                             req.params.isAdmin);
             } catch (err) {
                 console.error(err.message);
