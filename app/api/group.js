@@ -168,7 +168,7 @@ module.exports = [
                 },
                 payload: GroupValidator.onUpdateValidator,
                 failAction: async (request, h, err) => {
-                    console.error(err.message);
+                    console.error('validation message : ' + err.message);
                     throw Boom.badData(err.message);
                 }
             }
