@@ -164,7 +164,7 @@ module.exports = [
             },
             validate: {
                 params: {
-                    id: Joi.number()
+                    id: Joi.string()
                 },
                 payload: GroupValidator.onUpdateValidator,
                 failAction: async (request, h, err) => {
