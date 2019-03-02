@@ -71,8 +71,34 @@ module.exports = (db) => {
             }
             return groups;
         },
-        join: async function(profileUID) {
-
+        invite: async function(groupUID, profileUID, isAdmin) {
+            const GroupMember = db.getModel('GroupMember');
+            const Profile = db.getModel('Profile');
+            const group = await Group.findByPk(groupUID);
+            if(group == null) throw Boom.notFound('Can not find Group');
+            const profile = await Profile.findByPk(profileUID);
+            if(group == null) throw Boom.notFound('Can not find Group');
+            const existedMember = await GroupMember.findOne({
+                where: {
+                    ProfileUID: profileUID,
+                    GroupUID: groupUID
+                }
+            });
+            if(existedMember != null) throw Boom.badRequest('Member already in group');
+            let groupMember;
+            // const isAdminStr = isAdmin == true?'Y':'N';
+            try {                
+                groupMember = await GroupMember.create({
+                        Accepted: 1,
+                        GroupAdmin: isAdmin,
+                        ProfileUID: profileUID,
+                        GroupUID: groupUID
+                    });
+            } catch(err) {
+                console.error(err);
+                throw Boom.badImplementation(err.message, err);
+            }
+            return groupMember;
         },
         get: async function(id) {
             let group;
@@ -91,7 +117,7 @@ module.exports = (db) => {
             const profile = await Profile.findByPk(profileUID);
             if(profile === null) throw Boom.notFound(`Can not find Prodile with ID: ` + profileUID);
             await this.validate(obj);
-            const GroupMember = db.getModel('GroupMember');            
+            const GroupMember = db.getModel('GroupMember');
             try {
                 group = await Group.create(obj);
                 const groupMember = await GroupMember.create({

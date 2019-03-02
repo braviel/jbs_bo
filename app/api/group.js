@@ -245,6 +245,44 @@ module.exports = [
             }
         }
     },// GET Photo
+    {// INVITE
+        method: ['POST'],
+        path: '/group/{groupUID}/invite/{profileUID}/{isAmin}',
+        handler: async (req, res) => {
+            let result;
+            try{
+                result = await Group(req.getDb()).invite(req.params.groupUID, 
+                            req.params.groupUID,
+                            req.params.isAdmin);
+            } catch (err) {
+                console.error(err.message);
+                throw err;
+            }
+            return result;
+        },
+        config: {
+            auth: false, //'token'
+            tags: ['api','group'],
+            description: 'Invite Member to group',
+            notes: 'More implemetation note come here',
+            plugins: {
+                'hapi-swagger': {
+                    payloadType: 'form'
+                }
+            },
+            validate: {
+                params: {
+                    groupUID: Joi.string().required(),
+                    profileUID: Joi.string().required(),
+                    isAdmin: Joi.string().required()
+                },                
+                failAction: async (request, h, err) => {
+                    console.error('validation message : ' + err.message);
+                    throw Boom.badData(err.message);
+                }
+            }
+        }
+    },// INVITE
 ]
 //     );
 // }
